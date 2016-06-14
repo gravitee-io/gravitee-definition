@@ -1,1 +1,3 @@
 = API Definition
+
+image:https://badges.gitter.im/gravitee-io/gravitee-definition.svg[link="https://gitter.im/gravitee-io/gravitee-definition?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge"]
