@@ -42,4 +42,12 @@ public class Path {
     public void setRules(List<Rule> rules) {
         this.rules = rules;
     }
+
+    @Override
+    public String toString() {
+        return "Path{" +
+                "path='" + path + '\'' +
+                ", rules=" + rules +
+                '}';
+    }
 }

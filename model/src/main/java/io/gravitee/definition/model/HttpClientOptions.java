@@ -109,4 +109,18 @@ public class HttpClientOptions {
     public void setFollowRedirects(boolean followRedirects) {
         this.followRedirects = followRedirects;
     }
+
+    @Override
+    public String toString() {
+        return "HttpClientOptions{" +
+                "idleTimeout=" + idleTimeout +
+                ", connectTimeout=" + connectTimeout +
+                ", keepAlive=" + keepAlive +
+                ", readTimeout=" + readTimeout +
+                ", pipelining=" + pipelining +
+                ", maxConcurrentConnections=" + maxConcurrentConnections +
+                ", useCompression=" + useCompression +
+                ", followRedirects=" + followRedirects +
+                '}';
+    }
 }

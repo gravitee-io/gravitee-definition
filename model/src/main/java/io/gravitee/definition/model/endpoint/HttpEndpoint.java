@@ -77,4 +77,15 @@ public class HttpEndpoint extends Endpoint {
     public void setHealthCheck(EndpointHealthCheckService healthCheck) {
         this.healthCheck = healthCheck;
     }
+
+    @Override
+    public String toString() {
+        return "HttpEndpoint{" +
+                "httpProxy=" + httpProxy +
+                ", httpClientOptions=" + httpClientOptions +
+                ", httpClientSslOptions=" + httpClientSslOptions +
+                ", hostHeader='" + hostHeader + '\'' +
+                ", healthCheck=" + healthCheck +
+                "} " + super.toString();
+    }
 }
