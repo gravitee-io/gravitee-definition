@@ -44,4 +44,11 @@ public class HealthCheckService extends ScheduledService {
     public void setSteps(List<Step> steps) {
         this.steps = steps;
     }
+
+    @Override
+    public String toString() {
+        return "HealthCheckService{" +
+                "steps=" + steps +
+                "} " + super.toString();
+    }
 }

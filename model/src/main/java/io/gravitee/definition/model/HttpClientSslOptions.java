@@ -60,4 +60,14 @@ public class HttpClientSslOptions {
     public void setTrustAll(boolean trustAll) {
         this.trustAll = trustAll;
     }
+
+    @Override
+    public String toString() {
+        return "HttpClientSslOptions{" +
+                "enabled=" + enabled +
+                ", trustAll=" + trustAll +
+                ", hostnameVerifier=" + hostnameVerifier +
+                ", pem='" + pem + '\'' +
+                '}';
+    }
 }

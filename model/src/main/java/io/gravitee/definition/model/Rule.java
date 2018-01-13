@@ -65,4 +65,14 @@ public class Rule {
     public void setEnabled(boolean enabled) {
         this.enabled = enabled;
     }
+
+    @Override
+    public String toString() {
+        return "Rule{" +
+                "methods=" + methods +
+                ", policy=" + policy +
+                ", description='" + description + '\'' +
+                ", enabled=" + enabled +
+                '}';
+    }
 }

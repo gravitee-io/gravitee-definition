@@ -30,4 +30,11 @@ public class LoadBalancer {
     public void setType(LoadBalancerType type) {
         this.type = type;
     }
+
+    @Override
+    public String toString() {
+        return "LoadBalancer{" +
+                "type=" + type +
+                '}';
+    }
 }

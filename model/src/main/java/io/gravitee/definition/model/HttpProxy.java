@@ -75,4 +75,16 @@ public class HttpProxy {
     public void setType(HttpProxyType type) {
         this.type = type;
     }
+
+    @Override
+    public String toString() {
+        return "HttpProxy{" +
+                "enabled=" + enabled +
+                ", host='" + host + '\'' +
+                ", port=" + port +
+                ", username='" + username + '\'' +
+                ", password='" + password + '\'' +
+                ", type=" + type +
+                '}';
+    }
 }

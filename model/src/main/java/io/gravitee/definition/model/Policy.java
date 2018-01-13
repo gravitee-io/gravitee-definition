@@ -55,4 +55,12 @@ public class Policy {
     public int hashCode() {
         return Objects.hash(name);
     }
+
+    @Override
+    public String toString() {
+        return "Policy{" +
+                "name='" + name + '\'' +
+                ", configuration='" + configuration + '\'' +
+                '}';
+    }
 }

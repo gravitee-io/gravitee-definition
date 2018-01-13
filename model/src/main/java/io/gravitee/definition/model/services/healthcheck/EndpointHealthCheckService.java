@@ -30,4 +30,11 @@ public class EndpointHealthCheckService extends HealthCheckService {
     public void setInherit(boolean inherit) {
         this.inherit = inherit;
     }
+
+    @Override
+    public String toString() {
+        return "EndpointHealthCheckService{" +
+                "inherit=" + inherit +
+                "} " + super.toString();
+    }
 }

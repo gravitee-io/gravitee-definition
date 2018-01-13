@@ -110,4 +110,18 @@ public class Proxy {
     public void setCors(Cors cors) {
         this.cors = cors;
     }
+
+    @Override
+    public String toString() {
+        return "Proxy{" +
+                "contextPath='" + contextPath + '\'' +
+                ", endpoints=" + endpoints +
+                ", loadBalancer=" + loadBalancer +
+                ", failover=" + failover +
+                ", cors=" + cors +
+                ", stripContextPath=" + stripContextPath +
+                ", loggingMode=" + loggingMode +
+                ", multiTenant=" + multiTenant +
+                '}';
+    }
 }
