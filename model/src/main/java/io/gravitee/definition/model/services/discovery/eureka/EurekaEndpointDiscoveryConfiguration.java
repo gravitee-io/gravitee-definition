@@ -13,14 +13,20 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package io.gravitee.definition.model.services.discovery;
+package io.gravitee.definition.model.services.discovery.eureka;
 
-/**
- * @author David BRASSELY (david.brassely at graviteesource.com)
- * @author GraviteeSource Team
- */
-public enum EndpointDiscoveryProvider {
+import io.gravitee.definition.model.services.discovery.EndpointDiscoveryProviderConfiguration;
 
-    CONSUL,
-    EUREKA
+
+public class EurekaEndpointDiscoveryConfiguration implements EndpointDiscoveryProviderConfiguration {
+
+    private String service;
+
+    public String getService() {
+        return service;
+    }
+
+    public void setService(String service) {
+        this.service = service;
+    }
 }

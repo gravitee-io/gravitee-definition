@@ -23,6 +23,7 @@ import io.gravitee.definition.model.services.discovery.EndpointDiscoveryProvider
 import io.gravitee.definition.model.services.discovery.EndpointDiscoveryProviderConfiguration;
 import io.gravitee.definition.model.services.discovery.EndpointDiscoveryService;
 import io.gravitee.definition.model.services.discovery.consul.ConsulEndpointDiscoveryConfiguration;
+import io.gravitee.definition.model.services.discovery.eureka.EurekaEndpointDiscoveryConfiguration;
 
 import java.io.IOException;
 
@@ -52,6 +53,10 @@ public class EndpointDiscoveryDeserializer extends ServiceDeserializer<EndpointD
             if (service.getProvider() == EndpointDiscoveryProvider.CONSUL) {
                 EndpointDiscoveryProviderConfiguration configuration =
                         configurationNode.traverse(jsonParser.getCodec()).readValueAs(ConsulEndpointDiscoveryConfiguration.class);
+                service.setConfiguration(configuration);
+            } else if (service.getProvider() == EndpointDiscoveryProvider.EUREKA) {
+                EndpointDiscoveryProviderConfiguration configuration =
+                        configurationNode.traverse(jsonParser.getCodec()).readValueAs(EurekaEndpointDiscoveryConfiguration.class);
                 service.setConfiguration(configuration);
             }
         }
