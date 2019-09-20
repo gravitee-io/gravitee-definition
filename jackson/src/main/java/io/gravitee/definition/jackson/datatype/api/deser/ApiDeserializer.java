@@ -152,8 +152,12 @@ public class ApiDeserializer extends StdScalarDeserializer<Api> {
         if (pathMappingsNode != null) {
             pathMappingsNode.elements().forEachRemaining(jsonNode -> {
                 final String pathMapping = jsonNode.asText();
-                api.getPathMappings().put(pathMapping,
-                        Pattern.compile(pathMapping.replaceAll(":\\w*", "[^\\/]*") + "/*"));
+                try {
+                    api.getPathMappings().put(pathMapping,
+                            Pattern.compile(pathMapping.replaceAll(":\\w*", "[^\\/]*") + "/*"));
+                } catch (java.util.regex.PatternSyntaxException pse) {
+                    logger.error("An error occurs while trying to parse the path mapping {}", pathMapping, pse);
+                }
             });
         }
 
