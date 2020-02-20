@@ -41,7 +41,10 @@ public class PathDeserializer extends StdScalarDeserializer<Path> {
 
         Path pathDefinition = new Path();
 
-        if (node.isArray()) {
+        if (node.isObject())
+            node = node.get("rules");
+
+        if (node != null && node.isArray()) {
             node.elements().forEachRemaining(jsonNode -> {
                 try {
                     Rule rule = jsonNode.traverse(jp.getCodec()).readValueAs(Rule.class);

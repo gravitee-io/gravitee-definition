@@ -15,13 +15,14 @@
  */
 package io.gravitee.definition.jackson.datatype.api.ser;
 
-import com.fasterxml.jackson.core.JsonGenerator;
-import com.fasterxml.jackson.databind.SerializerProvider;
-import com.fasterxml.jackson.databind.ser.std.StdScalarSerializer;
+import java.io.IOException;
+
 import io.gravitee.definition.model.Path;
 import io.gravitee.definition.model.Rule;
 
-import java.io.IOException;
+import com.fasterxml.jackson.core.JsonGenerator;
+import com.fasterxml.jackson.databind.SerializerProvider;
+import com.fasterxml.jackson.databind.ser.std.StdScalarSerializer;
 
 /**
  * @author David BRASSELY (david.brassely at graviteesource.com)
@@ -35,10 +36,15 @@ public class PathSerializer extends StdScalarSerializer<Path> {
 
     @Override
     public void serialize(Path path, JsonGenerator jgen, SerializerProvider provider) throws IOException {
+        jgen.writeStartObject();
+        jgen.writeFieldName("rules");
+
         jgen.writeStartArray(path.getRules().size());
-        for(Rule rule : path.getRules()) {
+        for (Rule rule : path.getRules()) {
             jgen.writeObject(rule);
         }
         jgen.writeEndArray();
+
+        jgen.writeEndObject();
     }
 }
