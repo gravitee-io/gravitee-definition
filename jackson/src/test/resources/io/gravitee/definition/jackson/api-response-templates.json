@@ -18,9 +18,8 @@
   },
 
   "paths": {
-    "/*": {
-      "rules": []
-    }
+    "/*": [
+    ]
   },
 
   "response_templates": {
