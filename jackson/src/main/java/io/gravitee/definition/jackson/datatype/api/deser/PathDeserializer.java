@@ -40,7 +40,6 @@ public class PathDeserializer extends StdScalarDeserializer<Path> {
         JsonNode node = jp.getCodec().readTree(jp);
 
         Path pathDefinition = new Path();
-
         if (node.isObject())
             node = node.get("rules");
 

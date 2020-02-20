@@ -27,6 +27,10 @@
         <version>1.21.0-SNAPSHOT</version>
     </parent>
 
+    <properties>
+        <swagger.version>1.5.22</swagger.version>
+    </properties>
+
     <artifactId>gravitee-definition-model</artifactId>
     <name>Gravitee.io APIM - Definition - Model</name>
 
@@ -34,6 +38,13 @@
         <dependency>
             <groupId>io.gravitee.common</groupId>
             <artifactId>gravitee-common</artifactId>
+        </dependency>
+
+        <!-- Jackson dependencies -->
+        <dependency>
+            <groupId>com.fasterxml.jackson.core</groupId>
+            <artifactId>jackson-databind</artifactId>
+            <version>${jackson.version}</version>
         </dependency>
     </dependencies>
 </project>
