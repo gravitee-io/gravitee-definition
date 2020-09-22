@@ -40,6 +40,10 @@ public class ApiSerializer extends StdScalarSerializer<Api> {
         jgen.writeStringField("name", api.getName());
         jgen.writeObjectField("version", api.getVersion());
 
+        if (api.getDefinitionVersion() != null) {
+            jgen.writeObjectField("definitionVersion", api.getDefinitionVersion());
+        }
+
         if (api.getProxy() != null) {
             jgen.writeObjectField("proxy", api.getProxy());
         }
@@ -55,6 +59,10 @@ public class ApiSerializer extends StdScalarSerializer<Api> {
             });
 
             jgen.writeEndObject();
+        }
+
+        if (api.getFlows() != null && ! api.getFlows().isEmpty()) {
+            jgen.writeObjectField("flows", api.getFlows());
         }
 
         if (api.getServices() != null && ! api.getServices().isEmpty()) {

@@ -31,10 +31,12 @@ public class Api {
     private String id;
     private String name;
     private String version;
+    private String definitionVersion;
     private Proxy proxy;
     private Services services = new Services();
     private List<Resource> resources = new ArrayList<>();
     private Map<String, Path> paths;
+    private List<Flow> flows;
     private Properties properties;
     private Set<String> tags = new HashSet<>();
     private Map<String, Pattern> pathMappings = new HashMap<>();
@@ -130,6 +132,22 @@ public class Api {
 
     public void setResponseTemplates(Map<String, ResponseTemplates> responseTemplates) {
         this.responseTemplates = responseTemplates;
+    }
+
+    public List<Flow> getFlows() {
+        return flows;
+    }
+
+    public void setFlows(List<Flow> flows) {
+        this.flows = flows;
+    }
+
+    public String getDefinitionVersion() {
+        return definitionVersion;
+    }
+
+    public void setDefinitionVersion(String definitionVersion) {
+        this.definitionVersion = definitionVersion;
     }
 
     @Override

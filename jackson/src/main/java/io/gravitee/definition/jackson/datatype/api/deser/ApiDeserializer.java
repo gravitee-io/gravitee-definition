@@ -20,6 +20,7 @@ import com.fasterxml.jackson.databind.DeserializationContext;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.deser.std.StdScalarDeserializer;
 import io.gravitee.definition.model.*;
+import io.gravitee.definition.model.Properties;
 import io.gravitee.definition.model.plugins.resources.Resource;
 import io.gravitee.definition.model.services.Services;
 import io.gravitee.definition.model.services.discovery.EndpointDiscoveryService;
@@ -27,10 +28,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Set;
-import java.util.TreeMap;
+import java.util.*;
+import java.util.function.Consumer;
 import java.util.regex.Pattern;
 
 import static java.util.Comparator.reverseOrder;
@@ -134,6 +133,25 @@ public class ApiDeserializer extends StdScalarDeserializer<Api> {
             });
 
             api.setPaths(paths);
+        }
+
+        JsonNode definitionVersionNode = node.get("definitionVersion");
+        if (definitionVersionNode != null) {
+            api.setDefinitionVersion(definitionVersionNode.asText());
+        }
+
+        JsonNode flowsNode = node.get("flows");
+        if (flowsNode != null) {
+            final List<Flow> flows = new ArrayList<>();
+            flowsNode.elements().forEachRemaining(jsonNode -> {
+                try {
+                    Flow flow = jsonNode.traverse(jp.getCodec()).readValueAs(Flow.class);
+                    flows.add(flow);
+                } catch (IOException e) {
+                    logger.error("Flow {} can not be de-serialized", jsonNode.asText());
+                }
+            });
+            api.setFlows(flows);
         }
 
         JsonNode propertiesNode = node.get("properties");
