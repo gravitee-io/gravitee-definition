@@ -19,6 +19,7 @@
         "path": "/",
         "operator": "STARTS_WITH"
       },
+      "condition": "#request.headers['content-type'] == 'application/json'",
       "pre": [
         {
           "policy": "rate-limit",
@@ -57,7 +58,6 @@
           "policy": "xml-json",
           "name": "XML to JSON",
           "description": "Step description",
-          "condition": "#request.headers['content-type'] == 'application/json'",
           "configuration": {
           }
         }
@@ -76,6 +76,7 @@
       "flows": [
         {
           "name": "ALL",
+          "condition": "#request.headers['content-type'] == 'application/json'",
           "pre": [
             {
               "policy": "rate-limit",
@@ -114,7 +115,6 @@
               "policy": "xml-json",
               "name": "XML to JSON",
               "description": "Step description",
-              "condition": "#request.headers['content-type'] == 'application/json'",
               "configuration": {
               }
             }
@@ -122,6 +122,7 @@
         },
         {
           "name": "Other",
+          "condition": "#request.headers['content-type'] == 'application/json'",
           "pre": [
             {
               "policy": "rate-limit",
@@ -153,7 +154,6 @@
               "policy": "xml-json",
               "name": "XML to JSON",
               "description": "Step description",
-              "condition": "#request.headers['content-type'] == 'application/json'",
               "configuration": {
               }
             }
@@ -172,6 +172,7 @@
       "flows": [
         {
           "name": "ALL",
+          "condition": "#request.headers['content-type'] == 'application/json'",
           "pre": [
             {
               "policy": "rate-limit",
@@ -210,7 +211,6 @@
               "policy": "xml-json",
               "name": "XML to JSON",
               "description": "Step description",
-              "condition": "#request.headers['content-type'] == 'application/json'",
               "configuration": {
               }
             }

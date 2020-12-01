@@ -13,45 +13,50 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package io.gravitee.definition.jackson.datatype.api.deser;
+package io.gravitee.definition.model;
+
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.databind.DeserializationContext;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.deser.std.StdScalarDeserializer;
-import io.gravitee.definition.model.Path;
-import io.gravitee.definition.model.Rule;
-
-import java.io.IOException;
 
 /**
  * @author David BRASSELY (david.brassely at graviteesource.com)
  * @author GraviteeSource Team
  */
-public class PathDeserializer extends StdScalarDeserializer<Path> {
+public class PropertiesDeserializer extends StdScalarDeserializer<List<Property>> {
 
-    public PathDeserializer(Class<Path> vc) {
-        super(vc);
-    }
+	public PropertiesDeserializer() {
+		super(List.class);
+	}
 
-    @Override
-    public Path deserialize(JsonParser jp, DeserializationContext ctxt)
-            throws IOException {
-        JsonNode node = jp.getCodec().readTree(jp);
+	@Override
+	public List<Property> deserialize(JsonParser jp, DeserializationContext ctxt)
+			throws IOException
+	{
+		JsonNode node = jp.getCodec().readTree(jp);
 
-        Path pathDefinition = new Path();
+		List<Property> values = new ArrayList<>();
 
-        if (node.isArray()) {
-            node.elements().forEachRemaining(jsonNode -> {
-                try {
-                    Rule rule = jsonNode.traverse(jp.getCodec()).readValueAs(Rule.class);
-                    pathDefinition.getRules().add(rule);
+		if (node.isArray()) {
+			node.elements().forEachRemaining(jsonNode -> {
+				try {
+					Property property = jsonNode.traverse(jp.getCodec()).readValueAs(Property.class);
+					values.add(property);
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
             });
+        } else if (node.isObject()) {
+            node.fields().forEachRemaining(jsonNode ->
+                    values.add(new Property(jsonNode.getKey(), jsonNode.getValue().asText()))
+            );
         }
 
-        return pathDefinition;
+		return values;
     }
 }

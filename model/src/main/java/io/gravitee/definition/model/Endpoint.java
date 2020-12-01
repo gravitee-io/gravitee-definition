@@ -15,29 +15,50 @@
  */
 package io.gravitee.definition.model;
 
-import io.gravitee.definition.model.endpoint.EndpointStatusListener;
-
 import java.io.Serializable;
+import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonSetter;
+import com.fasterxml.jackson.annotation.JsonSubTypes;
+import com.fasterxml.jackson.annotation.JsonTypeInfo;
+import io.gravitee.definition.model.endpoint.EndpointStatusListener;
+import io.gravitee.definition.model.endpoint.GrpcEndpoint;
+import io.gravitee.definition.model.endpoint.HttpEndpoint;
+import io.swagger.v3.oas.annotations.media.DiscriminatorMapping;
+import io.swagger.v3.oas.annotations.media.Schema;
 
 /**
  * @author David BRASSELY (david.brassely at graviteesource.com)
  * @author GraviteeSource Team
  */
+@Schema(discriminatorProperty = "type", discriminatorMapping = {
+		@DiscriminatorMapping(value = "HTTP", schema = HttpEndpoint.class),
+		@DiscriminatorMapping(value = "GRPC", schema = GrpcEndpoint.class),
+}, defaultValue = "HTTP")
+@JsonTypeInfo(use = JsonTypeInfo.Id.NAME, property = "type", defaultImpl = HttpEndpoint.class, include = JsonTypeInfo.As.EXISTING_PROPERTY)
+@JsonSubTypes({
+		@JsonSubTypes.Type(name = "HTTP", value = HttpEndpoint.class),
+		@JsonSubTypes.Type(name = "GRPC", value = GrpcEndpoint.class),
+        // For legacy support
+        @JsonSubTypes.Type(name = "http", value = HttpEndpoint.class),
+        @JsonSubTypes.Type(name = "grpc", value = GrpcEndpoint.class)
+})
 public abstract class Endpoint implements Serializable {
 
     private final Set<EndpointStatusListener> listeners = new HashSet<>();
 
-    public static int DEFAULT_WEIGHT = 1;
-    private String name;
+	public static final int DEFAULT_WEIGHT = 1;
+	private String name;
     private String target;
     private int weight = DEFAULT_WEIGHT;
     private boolean backup;
-    private Status status = Status.UP;
-    private List<String> tenants;
-    private final EndpointType type;
+	private Status status = Status.UP;
+	private List<String> tenants; // TODO was not serialized
+	private final EndpointType type;
     private Boolean inherit;
 
     public Endpoint(EndpointType type, String name, String target) {
@@ -78,32 +99,39 @@ public abstract class Endpoint implements Serializable {
         this.backup = backup;
     }
 
-    public Status getStatus() {
-        return status;
-    }
+	@JsonIgnore
+	public Status getStatus() {
+		return status;
+	}
 
     public void setStatus(Status status) {
         this.status = status;
         listeners.forEach(endpointStatusListener -> endpointStatusListener.onStatusChanged(status));
     }
 
-    public List<String> getTenants() {
-        return tenants;
-    }
+	public List<String> getTenants() {
+		return tenants;
+	}
 
-    public void setTenants(List<String> tenants) {
-        this.tenants = tenants;
-    }
+	public void setTenants(List<String> tenants) {
+		this.tenants = tenants;
+	}
 
-    public EndpointType getType() {
-        return type;
-    }
+	// Keep it for backward-compatibility
+	@JsonSetter
+	private void setTenant(String tenant) {
+		this.tenants = Collections.singletonList(tenant);
+	}
 
-    public Boolean getInherit() {
-        return inherit;
-    }
+	public EndpointType getType() {
+		return type;
+	}
 
-    public void setInherit(Boolean inherit) {
+	public Boolean getInherit() {
+		return inherit;
+	}
+
+	public void setInherit(Boolean inherit) {
         this.inherit = inherit;
     }
 

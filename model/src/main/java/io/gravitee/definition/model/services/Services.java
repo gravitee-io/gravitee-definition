@@ -15,13 +15,18 @@
  */
 package io.gravitee.definition.model.services;
 
-import io.gravitee.definition.model.Service;
-
 import java.io.Serializable;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.function.Consumer;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import io.gravitee.definition.model.Service;
+import io.gravitee.definition.model.services.discovery.EndpointDiscoveryService;
+import io.gravitee.definition.model.services.dynamicproperty.DynamicPropertyService;
+import io.gravitee.definition.model.services.healthcheck.HealthCheckService;
 
 /**
  * @author David BRASSELY (david.brassely at graviteesource.com)
@@ -29,37 +34,71 @@ import java.util.function.Consumer;
  */
 public final class Services implements Serializable {
 
-    private Map<Class<? extends Service>, Service> services = new HashMap<>();
+	@JsonIgnore
+	private Map<Class<? extends Service>, Service> services = new HashMap<>();
 
-    public Collection<Service> getAll() {
-        if (services == null) {
-            return null;
-        }
+	@JsonIgnore
+	public Collection<Service> getAll() {
+		if (services == null) {
+			return null;
+		}
 
-        return services.values();
-    }
+		return services.values();
+	}
 
-    public <T extends Service> T get(Class<T> serviceType) {
-        if (services == null) {
-            return null;
-        }
+	@JsonIgnore
+	public <T extends Service> T get(Class<T> serviceType) {
+		if (services == null) {
+			return null;
+		}
 
-        return (T) services.get(serviceType);
-    }
+		return (T) services.get(serviceType);
+	}
 
-    public void set(Collection<? extends Service> services) {
-        services.forEach((Consumer<Service>) service -> Services.this.services.put(service.getClass(), service));
-    }
+	@JsonIgnore
+	public void set(Collection<? extends Service> services) {
+		services.forEach((Consumer<Service>) service -> Services.this.services.put(service.getClass(), service));
+	}
 
-    public void put(Class<? extends Service> clazz, Service service) {
-        this.services.put(clazz, service);
-    }
+	@JsonIgnore
+	public void put(Class<? extends Service> clazz, Service service) {
+		this.services.put(clazz, service);
+	}
 
-    public void remove(Class<? extends Service> clazz) {
-        this.services.remove(clazz);
-    }
+	@JsonIgnore
+	public void remove(Class<? extends Service> clazz) {
+		this.services.remove(clazz);
+	}
 
-    public boolean isEmpty() {
-        return (services == null) || services.isEmpty();
-    }
+	@JsonIgnore
+	public boolean isEmpty() {
+		return (services == null) || services.isEmpty();
+	}
+
+	@JsonProperty("discovery")
+	public EndpointDiscoveryService getDiscoveryService() {
+		return get(EndpointDiscoveryService.class);
+	}
+
+	public void setDiscoveryService(EndpointDiscoveryService discoveryService) {
+		put(EndpointDiscoveryService.class, discoveryService);
+	}
+
+	@JsonProperty("health-check")
+	public HealthCheckService getHealthCheckService() {
+		return get(HealthCheckService.class);
+	}
+
+	public void setHealthCheckService(HealthCheckService healthCheckService) {
+		put(HealthCheckService.class, healthCheckService);
+	}
+
+	@JsonProperty("dynamic-property")
+	public DynamicPropertyService getDynamicPropertyService() {
+		return get(DynamicPropertyService.class);
+	}
+
+	public void setDynamicPropertyService(DynamicPropertyService dynamicPropertyService) {
+		put(DynamicPropertyService.class, dynamicPropertyService);
+	}
 }

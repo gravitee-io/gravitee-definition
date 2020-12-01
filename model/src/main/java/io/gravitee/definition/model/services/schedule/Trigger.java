@@ -18,29 +18,46 @@ package io.gravitee.definition.model.services.schedule;
 import java.io.Serializable;
 import java.util.concurrent.TimeUnit;
 
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 /**
  * @author David BRASSELY (david.brassely at graviteesource.com)
  * @author GraviteeSource Team
  */
 public class Trigger implements Serializable {
 
-    private long rate;
+	private long rate;
 
-    private TimeUnit unit;
+	private TimeUnit unit;
 
-    public long getRate() {
-        return rate;
-    }
+	public Trigger() {
+	}
 
-    public void setRate(long rate) {
-        this.rate = rate;
-    }
+	@JsonCreator
+	public Trigger(
+			@JsonProperty(value = "rate", required = true) long rate,
+			@JsonFormat(with = JsonFormat.Feature.ACCEPT_CASE_INSENSITIVE_PROPERTIES) @JsonProperty(value = "unit", required = true) TimeUnit unit)
+	{
+		this.rate = rate;
+		this.unit = unit;
+	}
 
-    public TimeUnit getUnit() {
-        return unit;
-    }
+	public long getRate() {
+		return rate;
+	}
 
-    public void setUnit(TimeUnit unit) {
-        this.unit = unit;
-    }
+	public void setRate(long rate) {
+		this.rate = rate;
+	}
+
+	public TimeUnit getUnit() {
+		return unit;
+	}
+
+	@JsonFormat(with = JsonFormat.Feature.ACCEPT_CASE_INSENSITIVE_PROPERTIES)
+	public void setUnit(TimeUnit unit) {
+		this.unit = unit;
+	}
 }

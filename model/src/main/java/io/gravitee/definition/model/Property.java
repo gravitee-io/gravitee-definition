@@ -17,41 +17,49 @@ package io.gravitee.definition.model;
 
 import java.io.Serializable;
 
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 /**
  * @author David BRASSELY (david.brassely at graviteesource.com)
  * @author GraviteeSource Team
  */
 public class Property implements Serializable {
 
-    private final String key;
+	private final String key;
 
-    private final String value;
+	private final String value;
 
-    protected boolean dynamic = false;
+	protected boolean dynamic = false;
 
-    public Property(String key, String value) {
-        this.key = key;
-        this.value = value;
-    }
+	@JsonCreator
+	public Property(
+			@JsonProperty(value = "key", required = true) String key,
+			@JsonProperty(value = "value", required = true) String value)
+	{
+		this.key = key;
+		this.value = value;
+	}
 
-    public String getKey() {
-        return key;
-    }
+	public String getKey() {
+		return key;
+	}
 
-    public String getValue() {
-        return value;
-    }
+	public String getValue() {
+		return value;
+	}
 
-    public boolean isDynamic() {
-        return dynamic;
-    }
+	// todo was only serialized if not true
+	public boolean isDynamic() {
+		return dynamic;
+	}
 
-    public void setDynamic(boolean dynamic) {
-        this.dynamic = dynamic;
-    }
+	public void setDynamic(boolean dynamic) {
+		this.dynamic = dynamic;
+	}
 
-    @Override
-    public boolean equals(Object o) {
+	@Override
+	public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null ||
                 !(o.getClass().isAssignableFrom(getClass()) || getClass().isAssignableFrom(o.getClass()))) return false;

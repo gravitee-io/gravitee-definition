@@ -16,46 +16,58 @@
 package io.gravitee.definition.model;
 
 import java.io.Serializable;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
+import java.util.stream.Collectors;
+
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonSetter;
+import com.fasterxml.jackson.annotation.JsonUnwrapped;
 
 /**
  * @author David BRASSELY (david.brassely at graviteesource.com)
  * @author GraviteeSource Team
  */
+@JsonIgnoreProperties({ "endpoint", "multiTenant" }) // TODO this is currently tested?!
 public class Proxy implements Serializable {
 
-    private List<VirtualHost> virtualHosts;
+	@JsonProperty("virtual_hosts")
+	private List<VirtualHost> virtualHosts;
 
-    private Set<EndpointGroup> groups;
+	private Set<EndpointGroup> groups;
 
-    private Failover failover;
+	@JsonUnwrapped
+	private EndpointGroup commonEndpointSettings;
 
-    private Cors cors;
+	private Failover failover;
 
-    private Logging logging;
+	private Cors cors;
 
-    private boolean stripContextPath = false;
+	private Logging logging;
 
-    private boolean preserveHost = false;
+	@JsonProperty("strip_context_path")
+	private boolean stripContextPath = false;
 
-    public boolean isStripContextPath() {
-        return stripContextPath;
-    }
+	@JsonProperty("preserve_host")
+	private boolean preserveHost = false;
 
-    public void setStripContextPath(boolean stripContextPath) {
-        this.stripContextPath = stripContextPath;
-    }
+	public boolean isStripContextPath() {
+		return stripContextPath;
+	}
 
-    public List<VirtualHost> getVirtualHosts() {
-        return virtualHosts;
-    }
+	public void setStripContextPath(boolean stripContextPath) {
+		this.stripContextPath = stripContextPath;
+	}
 
-    public void setVirtualHosts(List<VirtualHost> virtualHosts) {
-        this.virtualHosts = virtualHosts;
-    }
+	public List<VirtualHost> getVirtualHosts() {
+		return virtualHosts;
+	}
 
-    public boolean failoverEnabled() {
+	public void setVirtualHosts(List<VirtualHost> virtualHosts) {
+		this.virtualHosts = virtualHosts;
+	}
+
+	public boolean failoverEnabled() {
         return failover != null;
     }
 
@@ -63,39 +75,93 @@ public class Proxy implements Serializable {
         return failover;
     }
 
-    public void setFailover(Failover failover) {
-        this.failover = failover;
-    }
+	public void setFailover(Failover failover) {
+		this.failover = failover;
+	}
 
-    public Cors getCors() {
-        return cors;
-    }
+	public Cors getCors() {
+		return cors;
+	}
 
-    public void setCors(Cors cors) {
-        this.cors = cors;
-    }
+	public void setCors(Cors cors) {
+		this.cors = cors;
+	}
 
-    public Set<EndpointGroup> getGroups() {
-        return groups;
-    }
+	public Set<EndpointGroup> getGroups() {
+		return groups;
+	}
 
-    public void setGroups(Set<EndpointGroup> groups) {
-        this.groups = groups;
-    }
+	public void setGroups(Collection<EndpointGroup> groups) {
+		if (groups == null) {
+			this.groups = null;
+			return;
+		}
+		this.groups = new LinkedHashSet<>(groups.size());
+		for (EndpointGroup group : groups) {
+			if (!this.groups.add(group)) {
+				throw new IllegalArgumentException("[api] API must have single endpoint group names");
+			}
+		}
 
-    public Logging getLogging() {
-        return logging;
-    }
+		//check that endpoint groups and endpoints don't have the same name
+		//deser have already check that group names are unique
+		// and endpoint names too (in the same group)
+		Set<String> endpointNames = groups.stream()
+				.map(EndpointGroup::getName)
+				.collect(Collectors.toSet());
+		for (EndpointGroup group : groups) {
+			if (group.getEndpoints() != null) {
+				for (Endpoint endpoint : group.getEndpoints()) {
+					if (endpointNames.contains(endpoint.getName())) {
+						throw new IllegalArgumentException("[api] API endpoint names and group names must be unique");
+					}
+					endpointNames.add(endpoint.getName());
+				}
+			}
+		}
+	}
 
-    public void setLogging(Logging logging) {
-        this.logging = logging;
-    }
+	public Logging getLogging() {
+		return logging;
+	}
 
-    public boolean isPreserveHost() {
-        return preserveHost;
-    }
+	public void setLogging(Logging logging) {
+		this.logging = logging;
+	}
 
-    public void setPreserveHost(boolean preserveHost) {
-        this.preserveHost = preserveHost;
-    }
+	public boolean isPreserveHost() {
+		return preserveHost;
+	}
+
+	public void setPreserveHost(boolean preserveHost) {
+		this.preserveHost = preserveHost;
+	}
+
+	public EndpointGroup getCommonEndpointSettings() {
+		return commonEndpointSettings;
+	}
+
+	public Proxy setCommonEndpointSettings(EndpointGroup commonEndpointSettings) {
+		this.commonEndpointSettings = commonEndpointSettings;
+		return this;
+	}
+
+	// To ensure backward compatibility
+	@JsonSetter(value = "context_path")
+	private void setContextPath(String contextPath) {
+		String[] parts = contextPath.split("/");
+		StringBuilder finalPath = new StringBuilder("/");
+
+		for (String part : parts) {
+			if (!part.isEmpty()) {
+				finalPath.append(part).append('/');
+			}
+		}
+
+		String sContextPath = finalPath.deleteCharAt(finalPath.length() - 1).toString();
+		VirtualHost defaultHost = new VirtualHost();
+		defaultHost.setPath(sContextPath);
+		setVirtualHosts(Collections.singletonList(defaultHost));
+	}
+
 }

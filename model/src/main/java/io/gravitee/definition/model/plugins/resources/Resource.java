@@ -18,37 +18,64 @@ package io.gravitee.definition.model.plugins.resources;
 import java.io.Serializable;
 import java.util.Objects;
 
+import com.fasterxml.jackson.annotation.*;
+import com.fasterxml.jackson.databind.JsonNode;
+import io.swagger.v3.oas.annotations.media.Schema;
+
 /**
  * @author David BRASSELY (david.brassely at graviteesource.com)
  * @author GraviteeSource Team
  */
 public class Resource implements Serializable {
 
-    private boolean enabled = true;
+	private boolean enabled = true;
 
-    private String name;
+	private String name;
 
-    private String type;
+	private String type;
 
-    private String configuration;
+	private Object configuration;
 
-    public String getConfiguration() {
-        return configuration;
-    }
+	public Resource() {
+	}
 
-    public void setConfiguration(String configuration) {
-        this.configuration = configuration;
-    }
+	@JsonCreator
+	public Resource(
+			@JsonProperty(value = "name", required = true) String name,
+			@JsonProperty(value = "type", required = true) String type,
+			@JsonProperty(value = "configuration", required = true) JsonNode configuration
+	)
+	{
+		this.name = name;
+		this.type = type;
+		this.configuration = configuration;
+	}
 
-    public String getType() {
-        return type;
-    }
+    @Schema(implementation = Object.class)
+    @JsonRawValue
+	public String getConfiguration() {
+		return configuration == null ? null : configuration.toString();
+	}
 
-    public void setType(String type) {
-        this.type = type;
-    }
+	@JsonIgnore
+	public void setConfiguration(String configuration) {
+		this.configuration = configuration;
+	}
 
-    public String getName() {
+	@JsonSetter
+	public void setConfiguration(JsonNode configuration) {
+		this.configuration = configuration;
+	}
+
+	public String getType() {
+		return type;
+	}
+
+	public void setType(String type) {
+		this.type = type;
+	}
+
+	public String getName() {
         return name;
     }
 

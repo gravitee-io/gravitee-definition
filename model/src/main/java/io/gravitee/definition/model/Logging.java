@@ -17,31 +17,41 @@ package io.gravitee.definition.model;
 
 import java.io.Serializable;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 /**
  * @author David BRASSELY (david.brassely at graviteesource.com)
  * @author GraviteeSource Team
  */
 public class Logging implements Serializable {
 
-    public final static LoggingMode DEFAULT_LOGGING_MODE = LoggingMode.NONE;
+	public final static LoggingMode DEFAULT_LOGGING_MODE = LoggingMode.NONE;
 
-    private LoggingMode mode = DEFAULT_LOGGING_MODE;
+	private LoggingMode mode = DEFAULT_LOGGING_MODE;
 
-    private String condition;
+	private String condition;
 
-    public LoggingMode getMode() {
-        return mode;
-    }
+	@JsonFormat(with = JsonFormat.Feature.ACCEPT_CASE_INSENSITIVE_PROPERTIES)
+	public LoggingMode getMode() {
+		return mode;
+	}
 
-    public void setMode(LoggingMode mode) {
-        this.mode = mode;
-    }
+	public void setMode(LoggingMode mode) {
+		this.mode = mode;
+	}
 
-    public String getCondition() {
-        return condition;
-    }
+	// todo only serialized when mode != none and condition != "null"
+	@JsonProperty("condition")
+	public String getCondition() {
+		return condition;
+	}
 
-    public void setCondition(String condition) {
-        this.condition = condition;
-    }
+	public void setCondition(String condition) {
+		// test "null" for legacy configuration
+		if (condition.equals("null")) {
+			return;
+		}
+		this.condition = condition;
+	}
 }

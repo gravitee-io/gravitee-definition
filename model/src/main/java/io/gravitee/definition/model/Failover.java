@@ -17,6 +17,8 @@ package io.gravitee.definition.model;
 
 import java.io.Serializable;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+
 /**
  * @author David BRASSELY (david.brassely at graviteesource.com)
  * @author Nicolas GERAUD (nicolas.geraud at graviteesource.com)
@@ -24,23 +26,24 @@ import java.io.Serializable;
  */
 public class Failover implements Serializable {
 
-    public static int DEFAULT_MAX_ATTEMPTS = 1;
-    public static long DEFAULT_RETRY_TIMEOUT = 10000L;
-    public static FailoverCase [] DEFAULT_FAILOVER_CASES = {FailoverCase.TIMEOUT};
+	public static int DEFAULT_MAX_ATTEMPTS = 1;
+	public static long DEFAULT_RETRY_TIMEOUT = 10000L;
+	public static FailoverCase[] DEFAULT_FAILOVER_CASES = { FailoverCase.TIMEOUT };
 
-    private int maxAttempts = DEFAULT_MAX_ATTEMPTS;
-    private long retryTimeout = DEFAULT_RETRY_TIMEOUT;
-    private FailoverCase [] cases = DEFAULT_FAILOVER_CASES;
+	private int maxAttempts = DEFAULT_MAX_ATTEMPTS;
+	private long retryTimeout = DEFAULT_RETRY_TIMEOUT;
+	@JsonFormat(with = JsonFormat.Feature.ACCEPT_SINGLE_VALUE_AS_ARRAY)
+	private FailoverCase[] cases = DEFAULT_FAILOVER_CASES;
 
-    public int getMaxAttempts() {
-        return maxAttempts;
-    }
+	public int getMaxAttempts() {
+		return maxAttempts;
+	}
 
-    public void setMaxAttempts(int maxAttempts) {
-        this.maxAttempts = maxAttempts;
-    }
+	public void setMaxAttempts(int maxAttempts) {
+		this.maxAttempts = maxAttempts;
+	}
 
-    public FailoverCase[] getCases() {
+	public FailoverCase[] getCases() {
         return cases;
     }
 

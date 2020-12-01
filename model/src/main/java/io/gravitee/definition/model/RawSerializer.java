@@ -15,32 +15,9 @@
  */
 package io.gravitee.definition.model;
 
-import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.List;
+public class RawSerializer extends com.fasterxml.jackson.databind.ser.std.RawSerializer<Object> {
 
-/**
- * @author David BRASSELY (david.brassely at graviteesource.com)
- * @author GraviteeSource Team
- */
-public class Path implements Serializable {
-    private String path;
-
-    private List<Rule> rules = new ArrayList<>();
-
-    public String getPath() {
-        return path;
-    }
-
-    public void setPath(String path) {
-        this.path = path;
-    }
-
-    public List<Rule> getRules() {
-        return rules;
-    }
-
-    public void setRules(List<Rule> rules) {
-        this.rules = rules;
-    }
+	public RawSerializer() {
+		super(Object.class);
+	}
 }

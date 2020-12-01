@@ -17,39 +17,50 @@ package io.gravitee.definition.model.services.healthcheck;
 
 import java.io.Serializable;
 
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 /**
  * @author David BRASSELY (david.brassely at graviteesource.com)
  * @author GraviteeSource Team
  */
 public class Step implements Serializable {
 
-    private String name;
+	private String name = "default-step";
 
-    private Request request;
+	private Request request;
 
-    private Response response;
+	private Response response = Response.DEFAULT_RESPONSE;
 
-    public String getName() {
-        return name;
-    }
+	public Step() {
+	}
 
-    public void setName(String name) {
-        this.name = name;
-    }
+	@JsonCreator
+	public Step(@JsonProperty(value = "request", required = true) Request request) {
+		this.request = request;
+	}
 
-    public Request getRequest() {
-        return request;
-    }
+	public String getName() {
+		return name;
+	}
 
-    public void setRequest(Request request) {
-        this.request = request;
-    }
+	public void setName(String name) {
+		this.name = name;
+	}
 
-    public Response getResponse() {
-        return response;
-    }
+	public Request getRequest() {
+		return request;
+	}
 
-    public void setResponse(Response response) {
+	public void setRequest(Request request) {
+		this.request = request;
+	}
+
+	public Response getResponse() {
+		return response;
+	}
+
+	public void setResponse(Response response) {
         this.response = response;
     }
 }

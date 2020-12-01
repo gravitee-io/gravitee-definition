@@ -15,11 +15,15 @@
  */
 package io.gravitee.definition.model;
 
-import io.gravitee.definition.model.services.Services;
-
 import java.io.Serializable;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
+
+import com.fasterxml.jackson.annotation.JsonGetter;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonSetter;
+import io.gravitee.common.http.HttpHeaders;
+import io.gravitee.definition.model.services.Services;
 
 /**
  * @author David BRASSELY (david.brassely at graviteesource.com)
@@ -27,91 +31,126 @@ import java.util.Set;
  */
 public class EndpointGroup implements Serializable {
 
-    private String name;
-    private Set<Endpoint> endpoints;
-    private LoadBalancer loadBalancer = new LoadBalancer();
-    private Services services = new Services();
-    private HttpProxy httpProxy;
-    private HttpClientOptions httpClientOptions;
-    private HttpClientSslOptions httpClientSslOptions;
-    private Map<String, String> headers;
+	private String name = "default";
+	private Set<Endpoint> endpoints;
+	@JsonProperty("load_balancing")
+	private LoadBalancer loadBalancer = new LoadBalancer();
+	private Services services = new Services();
+	@JsonProperty("proxy")
+	private HttpProxy httpProxy;
+	@JsonProperty("http")
+	private HttpClientOptions httpClientOptions;
+	@JsonProperty("ssl")
+	private HttpClientSslOptions httpClientSslOptions;
+	private Map<String, String> headers;
 
-    public Set<Endpoint> getEndpoints() {
-        return endpoints;
-    }
+	public Set<Endpoint> getEndpoints() {
+		return endpoints;
+	}
 
-    public void setEndpoints(Set<Endpoint> endpoints) {
-        this.endpoints = endpoints;
-    }
+	public void setEndpoints(Collection<Endpoint> endpoints) {
+		if (endpoints == null) {
+			this.endpoints = null;
+			return;
+		}
+		this.endpoints = new LinkedHashSet<>();
+		for (Endpoint endpoint : endpoints) {
+			if (!this.endpoints.add(endpoint)) {
+				throw new IllegalArgumentException("[api] API endpoint names must be unique");
+			}
+		}
+	}
 
-    public LoadBalancer getLoadBalancer() {
-        return loadBalancer;
-    }
+	public LoadBalancer getLoadBalancer() {
+		return loadBalancer;
+	}
 
-    public void setLoadBalancer(LoadBalancer loadBalancer) {
-        this.loadBalancer = loadBalancer;
-    }
+	public void setLoadBalancer(LoadBalancer loadBalancer) {
+		this.loadBalancer = loadBalancer;
+	}
 
-    public String getName() {
-        return name;
-    }
+	public String getName() {
+		return name;
+	}
 
-    public void setName(String name) {
-        this.name = name;
-    }
+	public void setName(String name) {
+		this.name = name;
+	}
 
-    public Services getServices() {
-        return services;
-    }
+	public Services getServices() {
+		return services;
+	}
 
-    public void setServices(Services services) {
-        this.services = services;
-    }
+	public void setServices(Services services) {
+		this.services = services;
+	}
 
-    public HttpProxy getHttpProxy() {
-        return httpProxy;
-    }
+	public HttpProxy getHttpProxy() {
+		return httpProxy;
+	}
 
-    public void setHttpProxy(HttpProxy httpProxy) {
-        this.httpProxy = httpProxy;
-    }
+	public void setHttpProxy(HttpProxy httpProxy) {
+		this.httpProxy = httpProxy;
+	}
 
-    public HttpClientOptions getHttpClientOptions() {
-        return httpClientOptions;
-    }
+	public HttpClientOptions getHttpClientOptions() {
+		return httpClientOptions;
+	}
 
-    public void setHttpClientOptions(HttpClientOptions httpClientOptions) {
-        this.httpClientOptions = httpClientOptions;
-    }
+	public void setHttpClientOptions(HttpClientOptions httpClientOptions) {
+		this.httpClientOptions = httpClientOptions;
+	}
 
-    public HttpClientSslOptions getHttpClientSslOptions() {
-        return httpClientSslOptions;
-    }
+	public HttpClientSslOptions getHttpClientSslOptions() {
+		return httpClientSslOptions;
+	}
 
-    public void setHttpClientSslOptions(HttpClientSslOptions httpClientSslOptions) {
-        this.httpClientSslOptions = httpClientSslOptions;
-    }
+	public void setHttpClientSslOptions(HttpClientSslOptions httpClientSslOptions) {
+		this.httpClientSslOptions = httpClientSslOptions;
+	}
 
-    public Map<String, String> getHeaders() {
-        return headers;
-    }
+	@JsonGetter("headers")
+	public Map<String, String> getHeaders() {
+		return headers;
+	}
 
-    public void setHeaders(Map<String, String> headers) {
-        this.headers = headers;
-    }
+	@JsonIgnore
+	public void setHeaders(Map<String, String> headers) {
+		this.headers = headers;
+	}
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
+	@JsonSetter("headers")
+	private void setHeadersJson(Map<String, String> headers) {
+		if (this.headers != null) {
+			if (headers != null) {
+				headers.forEach(this.headers::putIfAbsent);
+			}
+		} else {
+			this.headers = headers;
+		}
+	}
 
-        EndpointGroup that = (EndpointGroup) o;
+	@JsonSetter
+	public void setHostHeader(String hostHeader) {
+		if (!hostHeader.trim().isEmpty()) {
+			Map<String, String> headers = Optional.ofNullable(getHeaders()).orElseGet(LinkedHashMap::new);
+			headers.put(HttpHeaders.HOST, hostHeader);
+			setHeaders(headers);
+		}
+	}
 
-        return name.equals(that.name);
-    }
+	@Override
+	public boolean equals(Object o) {
+		if (this == o) return true;
+		if (o == null || getClass() != o.getClass()) return false;
 
-    @Override
-    public int hashCode() {
-        return name.hashCode();
-    }
+		EndpointGroup that = (EndpointGroup) o;
+
+		return name.equals(that.name);
+	}
+
+	@Override
+	public int hashCode() {
+		return name.hashCode();
+	}
 }

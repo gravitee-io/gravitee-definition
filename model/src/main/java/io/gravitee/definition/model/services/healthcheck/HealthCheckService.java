@@ -15,9 +15,13 @@
  */
 package io.gravitee.definition.model.services.healthcheck;
 
-import io.gravitee.definition.model.services.schedule.ScheduledService;
-
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonSetter;
+import io.gravitee.definition.model.services.schedule.ScheduledService;
 
 /**
  * @author David BRASSELY (david.brassely at graviteesource.com)
@@ -25,23 +29,50 @@ import java.util.List;
  */
 public class HealthCheckService extends ScheduledService {
 
-    public final static String SERVICE_KEY = "health-check";
+	public final static String SERVICE_KEY = "health-check";
 
-    public HealthCheckService() {
-        super(SERVICE_KEY);
-    }
+	public HealthCheckService() {
+		super(SERVICE_KEY);
+	}
 
-    private List<Step> steps;
+	private List<Step> steps;
+	@JsonIgnore
+	private transient Step step;
 
-    public static String getServiceKey() {
-        return SERVICE_KEY;
-    }
+	public static String getServiceKey() {
+		return SERVICE_KEY;
+	}
 
-    public List<Step> getSteps() {
-        return steps;
-    }
+	public List<Step> getSteps() {
+		return steps;
+	}
 
-    public void setSteps(List<Step> steps) {
-        this.steps = steps;
-    }
+	public void setSteps(List<Step> steps) {
+		this.steps = steps;
+	}
+
+	@JsonSetter // Ensure backward compatibility
+	private void setRequest(Request request) {
+		initLegacyStep();
+		step.setRequest(request);
+	}
+
+	@JsonSetter // Ensure backward compatibility
+	private void setExpectation(Response response) {
+		initLegacyStep();
+		step.setResponse(response);
+	}
+
+	private void initLegacyStep() {
+		if (steps == null) {
+			steps = new ArrayList<>();
+		}
+		if (step == null) {
+			step = new Step();
+			Response response = new Response();
+			response.setAssertions(Collections.singletonList(Response.DEFAULT_ASSERTION));
+			step.setResponse(response);
+			steps.add(step);
+		}
+	}
 }

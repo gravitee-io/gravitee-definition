@@ -15,10 +15,19 @@
  */
 package io.gravitee.definition.model;
 
-import io.gravitee.common.http.HttpMethod;
-
 import java.io.Serializable;
+import java.util.Collections;
+import java.util.EnumSet;
+import java.util.Map;
 import java.util.Set;
+
+import com.fasterxml.jackson.annotation.JsonAnyGetter;
+import com.fasterxml.jackson.annotation.JsonAnySetter;
+import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import io.gravitee.common.http.HttpMethod;
 
 /**
  * @author David BRASSELY (david.brassely at graviteesource.com)
@@ -26,7 +35,7 @@ import java.util.Set;
  */
 public class Rule implements Serializable {
 
-    private Set<HttpMethod> methods;
+    private Set<HttpMethod> methods = EnumSet.allOf(HttpMethod.class);
 
     private Policy policy;
 
@@ -34,6 +43,7 @@ public class Rule implements Serializable {
 
     private boolean enabled = true;
 
+    @JsonFormat(with = JsonFormat.Feature.ACCEPT_CASE_INSENSITIVE_PROPERTIES)
     public Set<HttpMethod> getMethods() {
         return methods;
     }
@@ -42,6 +52,7 @@ public class Rule implements Serializable {
         this.methods = methods;
     }
 
+    @JsonIgnore
     public Policy getPolicy() {
         return policy;
     }
@@ -64,5 +75,22 @@ public class Rule implements Serializable {
 
     public void setEnabled(boolean enabled) {
         this.enabled = enabled;
+    }
+
+    // for compatibility
+    @JsonAnySetter
+    private void setPolicyJson(String name, JsonNode jsonNode) {
+        policy = new Policy();
+        policy.setName(name);
+        policy.setConfiguration(jsonNode.toString());
+    }
+
+    @JsonSerialize(contentUsing = RawSerializer.class)
+    @JsonAnyGetter
+    public Map<String, Object> getPolicyJson() {
+        if (policy == null) {
+            return null;
+        }
+        return Collections.singletonMap(policy.getName(), policy.getConfiguration());
     }
 }

@@ -17,19 +17,22 @@ package io.gravitee.definition.model;
 
 import java.io.Serializable;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+
 /**
  * @author David BRASSELY (david.brassely at graviteesource.com)
  * @author GraviteeSource Team
  */
 public class LoadBalancer implements Serializable {
 
-    private LoadBalancerType type = LoadBalancerType.ROUND_ROBIN;
+	@JsonFormat(with = JsonFormat.Feature.ACCEPT_CASE_INSENSITIVE_PROPERTIES)
+	private LoadBalancerType type = LoadBalancerType.ROUND_ROBIN;
 
-    public LoadBalancerType getType() {
-        return type;
-    }
+	public LoadBalancerType getType() {
+		return type;
+	}
 
-    public void setType(LoadBalancerType type) {
-        this.type = type;
-    }
+	public void setType(LoadBalancerType type) {
+		this.type = type;
+	}
 }

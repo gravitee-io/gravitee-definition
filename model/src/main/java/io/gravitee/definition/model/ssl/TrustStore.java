@@ -17,10 +17,29 @@ package io.gravitee.definition.model.ssl;
 
 import java.io.Serializable;
 
+import com.fasterxml.jackson.annotation.JsonSubTypes;
+import com.fasterxml.jackson.annotation.JsonTypeInfo;
+import io.gravitee.definition.model.ssl.jks.JKSTrustStore;
+import io.gravitee.definition.model.ssl.pem.PEMTrustStore;
+import io.gravitee.definition.model.ssl.pkcs12.PKCS12TrustStore;
+import io.swagger.v3.oas.annotations.media.DiscriminatorMapping;
+import io.swagger.v3.oas.annotations.media.Schema;
+
 /**
  * @author David BRASSELY (david.brassely at graviteesource.com)
  * @author GraviteeSource Team
  */
+@Schema(discriminatorProperty = "type", discriminatorMapping = {
+		@DiscriminatorMapping(value = "JKS", schema = JKSTrustStore.class),
+		@DiscriminatorMapping(value = "PEM", schema = PEMTrustStore.class),
+		@DiscriminatorMapping(value = "PKCS12", schema = PKCS12TrustStore.class),
+})
+@JsonTypeInfo(use = JsonTypeInfo.Id.NAME, property = "type")
+@JsonSubTypes({
+		@JsonSubTypes.Type(name = "JKS", value = JKSTrustStore.class),
+		@JsonSubTypes.Type(name = "PEM", value = PEMTrustStore.class),
+		@JsonSubTypes.Type(name = "PKCS12", value = PKCS12TrustStore.class)
+})
 public abstract class TrustStore implements Serializable {
 
     private final TrustStoreType type;

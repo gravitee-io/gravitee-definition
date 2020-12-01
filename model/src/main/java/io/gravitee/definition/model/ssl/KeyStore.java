@@ -17,10 +17,29 @@ package io.gravitee.definition.model.ssl;
 
 import java.io.Serializable;
 
+import com.fasterxml.jackson.annotation.JsonSubTypes;
+import com.fasterxml.jackson.annotation.JsonTypeInfo;
+import io.gravitee.definition.model.ssl.jks.JKSKeyStore;
+import io.gravitee.definition.model.ssl.pem.PEMKeyStore;
+import io.gravitee.definition.model.ssl.pkcs12.PKCS12KeyStore;
+import io.swagger.v3.oas.annotations.media.DiscriminatorMapping;
+import io.swagger.v3.oas.annotations.media.Schema;
+
 /**
  * @author David BRASSELY (david.brassely at graviteesource.com)
  * @author GraviteeSource Team
  */
+@Schema(discriminatorProperty = "type", discriminatorMapping = {
+		@DiscriminatorMapping(value = "JKS", schema = JKSKeyStore.class),
+		@DiscriminatorMapping(value = "PEM", schema = PEMKeyStore.class),
+		@DiscriminatorMapping(value = "PKCS12", schema = PKCS12KeyStore.class),
+})
+@JsonTypeInfo(use = JsonTypeInfo.Id.NAME, property = "type")
+@JsonSubTypes({
+		@JsonSubTypes.Type(name = "JKS", value = JKSKeyStore.class),
+		@JsonSubTypes.Type(name = "PEM", value = PEMKeyStore.class),
+		@JsonSubTypes.Type(name = "PKCS12", value = PKCS12KeyStore.class)
+})
 public abstract class KeyStore implements Serializable {
 
     private final KeyStoreType type;

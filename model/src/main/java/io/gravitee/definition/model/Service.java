@@ -26,7 +26,7 @@ public abstract class Service implements Serializable {
 
     private final String name;
 
-    private boolean enabled;
+    private boolean enabled = true;
 
     public Service(String name) {
         this.name = name;

@@ -15,10 +15,14 @@
  */
 package io.gravitee.definition.model.endpoint;
 
+import java.util.LinkedHashMap;
+import java.util.Map;
+import java.util.Optional;
+
+import com.fasterxml.jackson.annotation.*;
+import io.gravitee.common.http.HttpHeaders;
 import io.gravitee.definition.model.*;
 import io.gravitee.definition.model.services.healthcheck.EndpointHealthCheckService;
-
-import java.util.Map;
 
 /**
  * @author David BRASSELY (david.brassely at graviteesource.com)
@@ -26,57 +30,92 @@ import java.util.Map;
  */
 public class HttpEndpoint extends Endpoint {
 
-    private HttpProxy httpProxy;
-    private HttpClientOptions httpClientOptions;
-    private HttpClientSslOptions httpClientSslOptions;
-    private Map<String, String> headers;
-    private EndpointHealthCheckService healthCheck;
+	@JsonProperty("proxy")
+	private HttpProxy httpProxy;
 
-    public HttpEndpoint(String name, String target) {
-        this(EndpointType.HTTP, name, target);
-    }
+	@JsonProperty("http")
+	private HttpClientOptions httpClientOptions = new HttpClientOptions();
 
-    HttpEndpoint(EndpointType type, String name, String target) {
-        super(type, name, target);
-    }
+	@JsonProperty("ssl")
+	private HttpClientSslOptions httpClientSslOptions;
 
-    public HttpProxy getHttpProxy() {
-        return httpProxy;
-    }
+	private Map<String, String> headers;
 
-    public void setHttpProxy(HttpProxy httpProxy) {
-        this.httpProxy = httpProxy;
-    }
+	@JsonProperty("healthcheck")
+	private EndpointHealthCheckService healthCheck;
 
-    public HttpClientOptions getHttpClientOptions() {
-        return httpClientOptions;
-    }
+	@JsonCreator
+	public HttpEndpoint(@JsonProperty("name") String name, @JsonProperty("target") String target) {
+		this(EndpointType.HTTP, name, target);
+	}
 
-    public void setHttpClientOptions(HttpClientOptions httpClientOptions) {
-        this.httpClientOptions = httpClientOptions;
-    }
+	HttpEndpoint(EndpointType type, String name, String target) {
+		super(type, name, target);
+	}
 
-    public HttpClientSslOptions getHttpClientSslOptions() {
-        return httpClientSslOptions;
-    }
+	public HttpProxy getHttpProxy() {
+		return httpProxy;
+	}
 
-    public void setHttpClientSslOptions(HttpClientSslOptions httpClientSslOptions) {
-        this.httpClientSslOptions = httpClientSslOptions;
-    }
+	public void setHttpProxy(HttpProxy httpProxy) {
+		this.httpProxy = httpProxy;
+	}
 
-    public Map<String, String> getHeaders() {
-        return headers;
-    }
+	public HttpClientOptions getHttpClientOptions() {
+		return httpClientOptions;
+	}
 
-    public void setHeaders(Map<String, String> headers) {
-        this.headers = headers;
-    }
+	public void setHttpClientOptions(HttpClientOptions httpClientOptions) {
+		this.httpClientOptions = httpClientOptions;
+	}
 
-    public EndpointHealthCheckService getHealthCheck() {
-        return healthCheck;
-    }
+	public HttpClientSslOptions getHttpClientSslOptions() {
+		return httpClientSslOptions;
+	}
 
-    public void setHealthCheck(EndpointHealthCheckService healthCheck) {
-        this.healthCheck = healthCheck;
-    }
+	public void setHttpClientSslOptions(HttpClientSslOptions httpClientSslOptions) {
+		this.httpClientSslOptions = httpClientSslOptions;
+	}
+
+	@JsonGetter("headers")
+	public Map<String, String> getHeaders() {
+		return headers;
+	}
+
+	@JsonIgnore
+	public void setHeaders(Map<String, String> headers) {
+		this.headers = headers;
+	}
+
+	@JsonSetter("headers")
+	private void setHeadersJson(Map<String, String> headers) {
+		if (this.headers != null) {
+			if (headers != null) {
+				headers.forEach(this.headers::putIfAbsent);
+			}
+		} else {
+			this.headers = headers;
+		}
+	}
+
+	public EndpointHealthCheckService getHealthCheck() {
+		return healthCheck;
+	}
+
+	public void setHealthCheck(EndpointHealthCheckService healthCheck) {
+		this.healthCheck = healthCheck;
+	}
+
+	@JsonSetter
+	private void setHostHeader(String hostHeader) {
+		if (Boolean.TRUE.equals(getInherit())) {
+			return;
+		}
+		if (!hostHeader.trim().isEmpty()) {
+			Map<String, String> headers = Optional.ofNullable(getHeaders()).orElseGet(LinkedHashMap::new);
+			headers.put(HttpHeaders.HOST, hostHeader);
+			setHeaders(headers);
+		}
+	}
+	// TODO Inherit handling
 }

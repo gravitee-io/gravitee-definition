@@ -15,12 +15,13 @@
  */
 package io.gravitee.definition.model;
 
-import io.gravitee.common.util.TemplatedValueHashMap;
-
 import java.io.Serializable;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import io.gravitee.common.util.TemplatedValueHashMap;
 
 /**
  * @author David BRASSELY (david.brassely at graviteesource.com)
@@ -28,8 +29,8 @@ import java.util.stream.Collectors;
  */
 public class Properties implements Serializable {
 
-    private List<Property> properties;
-    private Map<String ,String> entries;
+	private List<Property> properties;
+	private Map<String, String> entries;
 
     public void setProperties(List<Property> properties) {
         this.properties = properties;
@@ -48,7 +49,8 @@ public class Properties implements Serializable {
         return properties;
     }
 
-    public Map<String, String> getValues() {
-        return this.entries;
-    }
+	@JsonIgnore
+	public Map<String, String> getValues() {
+		return this.entries;
+	}
 }

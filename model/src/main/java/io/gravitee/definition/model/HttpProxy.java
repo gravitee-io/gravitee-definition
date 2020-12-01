@@ -17,19 +17,24 @@ package io.gravitee.definition.model;
 
 import java.io.Serializable;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 /**
  * @author David BRASSELY (david.brassely at graviteesource.com)
  * @author GraviteeSource Team
  */
+@JsonIgnoreProperties("principal")
 public class HttpProxy implements Serializable {
 
-    private boolean enabled;
+	private boolean enabled;
     private boolean useSystemProxy;
-    private String host;
+	private String host;
     private int port;
     private String username;
     private String password;
-    private HttpProxyType type = HttpProxyType.HTTP;
+	@JsonFormat(with = JsonFormat.Feature.ACCEPT_CASE_INSENSITIVE_PROPERTIES)
+	private HttpProxyType type = HttpProxyType.HTTP;
 
     public boolean isEnabled() {
         return enabled;
