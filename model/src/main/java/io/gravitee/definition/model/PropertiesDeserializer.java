@@ -15,14 +15,14 @@
  */
 package io.gravitee.definition.model;
 
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
-
 import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.databind.DeserializationContext;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.deser.std.StdScalarDeserializer;
+
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * @author David BRASSELY (david.brassely at graviteesource.com)
@@ -30,23 +30,23 @@ import com.fasterxml.jackson.databind.deser.std.StdScalarDeserializer;
  */
 public class PropertiesDeserializer extends StdScalarDeserializer<List<Property>> {
 
-	public PropertiesDeserializer() {
-		super(List.class);
-	}
+    public PropertiesDeserializer() {
+        super(List.class);
+    }
 
-	@Override
-	public List<Property> deserialize(JsonParser jp, DeserializationContext ctxt)
-			throws IOException
-	{
-		JsonNode node = jp.getCodec().readTree(jp);
+    @Override
+    public List<Property> deserialize(JsonParser jp, DeserializationContext ctxt)
+            throws IOException
+    {
+        JsonNode node = jp.getCodec().readTree(jp);
 
-		List<Property> values = new ArrayList<>();
+        List<Property> values = new ArrayList<>();
 
-		if (node.isArray()) {
-			node.elements().forEachRemaining(jsonNode -> {
-				try {
-					Property property = jsonNode.traverse(jp.getCodec()).readValueAs(Property.class);
-					values.add(property);
+        if (node.isArray()) {
+            node.elements().forEachRemaining(jsonNode -> {
+                try {
+                    Property property = jsonNode.traverse(jp.getCodec()).readValueAs(Property.class);
+                    values.add(property);
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
@@ -57,6 +57,6 @@ public class PropertiesDeserializer extends StdScalarDeserializer<List<Property>
             );
         }
 
-		return values;
+        return values;
     }
 }

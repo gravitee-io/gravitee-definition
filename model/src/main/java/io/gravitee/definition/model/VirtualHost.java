@@ -15,11 +15,11 @@
  */
 package io.gravitee.definition.model;
 
-import java.io.Serializable;
-import java.util.Objects;
-
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
+
+import java.io.Serializable;
+import java.util.Objects;
 
 /**
  * @author David BRASSELY (david.brassely at graviteesource.com)
@@ -27,31 +27,31 @@ import com.fasterxml.jackson.annotation.JsonProperty;
  */
 public class VirtualHost implements Serializable {
 
-	public static final String DEFAULT_PATH = "/";
-	private String host;
+    public static final String DEFAULT_PATH = "/";
+    private String host;
 
-	private String path = DEFAULT_PATH;
+    private String path = DEFAULT_PATH;
 
     @JsonInclude(JsonInclude.Include.NON_DEFAULT)
     @JsonProperty("override_entrypoint")
-	private boolean overrideEntrypoint;
+    private boolean overrideEntrypoint;
 
-	public VirtualHost() {
-	}
+    public VirtualHost() {
+    }
 
-	public VirtualHost(String path) {
-		this.path = path;
-	}
+    public VirtualHost(String path) {
+        this.path = path;
+    }
 
-	public VirtualHost(String host, String path) {
-		this.host = host;
-		this.path = path;
-	}
+    public VirtualHost(String host, String path) {
+        this.host = host;
+        this.path = path;
+    }
 
     public VirtualHost(String host, String path, boolean overrideEntrypoint) {
-	    this.host = host;
-	    this.path = path;
-	    this.overrideEntrypoint = overrideEntrypoint;
+        this.host = host;
+        this.path = path;
+        this.overrideEntrypoint = overrideEntrypoint;
     }
 
     public String getHost() {
@@ -67,18 +67,18 @@ public class VirtualHost implements Serializable {
     }
 
     public void setPath(String path) {
-	    if (path == null) {
-		    this.path = DEFAULT_PATH;
-		    return;
-	    }
-	    String[] parts = path.split("/");
-	    StringBuilder finalPath = new StringBuilder("/");
-	    for (String part : parts) {
-		    if (!part.isEmpty()) {
-			    finalPath.append(part).append('/');
-		    }
-	    }
-	    this.path = finalPath.deleteCharAt(finalPath.length() - 1).toString();
+        if (path == null) {
+            this.path = DEFAULT_PATH;
+            return;
+        }
+        String[] parts = path.split("/");
+        StringBuilder finalPath = new StringBuilder("/");
+        for (String part : parts) {
+            if (!part.isEmpty()) {
+                finalPath.append(part).append('/');
+            }
+        }
+        this.path = finalPath.deleteCharAt(finalPath.length() - 1).toString();
     }
 
     public boolean isOverrideEntrypoint() {

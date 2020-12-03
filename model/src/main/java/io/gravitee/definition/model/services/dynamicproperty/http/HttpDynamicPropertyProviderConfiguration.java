@@ -25,36 +25,36 @@ import io.gravitee.definition.model.services.dynamicproperty.DynamicPropertyProv
  */
 public class HttpDynamicPropertyProviderConfiguration implements DynamicPropertyProviderConfiguration {
 
-	private String url;
+    private String url;
 
-	private String specification;
+    private String specification;
 
-	public HttpDynamicPropertyProviderConfiguration() {
-	}
+    public HttpDynamicPropertyProviderConfiguration() {
+    }
 
-	@JsonCreator
-	public HttpDynamicPropertyProviderConfiguration(
-			@JsonProperty(value = "url", required = true) String url,
-			@JsonProperty(value = "specification", required = true) String specification
-	)
-	{
-		this.url = url;
-		this.specification = specification;
-	}
+    @JsonCreator
+    public HttpDynamicPropertyProviderConfiguration(
+            @JsonProperty(value = "url", required = true) String url,
+            @JsonProperty(value = "specification", required = true) String specification
+    )
+    {
+        this.url = url;
+        this.specification = specification;
+    }
 
-	public String getUrl() {
-		return url;
-	}
+    public String getUrl() {
+        return url;
+    }
 
-	public void setUrl(String url) {
-		this.url = url;
-	}
+    public void setUrl(String url) {
+        this.url = url;
+    }
 
-	public String getSpecification() {
-		return specification;
-	}
+    public String getSpecification() {
+        return specification;
+    }
 
-	public void setSpecification(String specification) {
-		this.specification = specification;
-	}
+    public void setSpecification(String specification) {
+        this.specification = specification;
+    }
 }

@@ -15,11 +15,11 @@
  */
 package io.gravitee.definition.model.services.schedule;
 
-import java.util.concurrent.TimeUnit;
-
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonSetter;
 import io.gravitee.definition.model.Service;
+
+import java.util.concurrent.TimeUnit;
 
 /**
  * @author David BRASSELY (david.brassely at graviteesource.com)
@@ -27,34 +27,34 @@ import io.gravitee.definition.model.Service;
  */
 public abstract class ScheduledService extends Service {
 
-	protected Trigger trigger;
+    protected Trigger trigger;
 
-	public ScheduledService(String name) {
-		super(name);
-	}
+    public ScheduledService(String name) {
+        super(name);
+    }
 
-	public Trigger getTrigger() {
-		return trigger;
-	}
+    public Trigger getTrigger() {
+        return trigger;
+    }
 
-	public void setTrigger(Trigger trigger) {
-		this.trigger = trigger;
-	}
+    public void setTrigger(Trigger trigger) {
+        this.trigger = trigger;
+    }
 
-	@JsonSetter // Ensure backward compatibility
-	private void setInterval(Long interval) {
-		if (trigger == null) {
-			trigger = new Trigger();
-		}
-		trigger.setRate(interval);
-	}
+    @JsonSetter // Ensure backward compatibility
+    private void setInterval(Long interval) {
+        if (trigger == null) {
+            trigger = new Trigger();
+        }
+        trigger.setRate(interval);
+    }
 
-	@JsonFormat(with = JsonFormat.Feature.ACCEPT_CASE_INSENSITIVE_PROPERTIES)
-	@JsonSetter // Ensure backward compatibility
-	private void setUnit(TimeUnit timeUnit) {
-		if (trigger == null) {
-			trigger = new Trigger();
-		}
-		trigger.setUnit(timeUnit);
-	}
+    @JsonFormat(with = JsonFormat.Feature.ACCEPT_CASE_INSENSITIVE_PROPERTIES)
+    @JsonSetter // Ensure backward compatibility
+    private void setUnit(TimeUnit timeUnit) {
+        if (trigger == null) {
+            trigger = new Trigger();
+        }
+        trigger.setUnit(timeUnit);
+    }
 }

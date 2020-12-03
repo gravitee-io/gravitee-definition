@@ -1,7 +1,6 @@
 {
   "id": "my-api",
   "name": "my-team-api",
-
   "proxy": {
     "context_path": "/team",
     "endpoints": [
@@ -14,7 +13,6 @@
     ],
     "strip_context_path": false
   },
-
   "paths": {
     "/*": [
     ]

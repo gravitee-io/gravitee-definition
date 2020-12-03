@@ -15,10 +15,10 @@
  */
 package io.gravitee.definition.model;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 import java.io.Serializable;
 import java.util.Map;
-
-import com.fasterxml.jackson.annotation.JsonProperty;
 
 /**
  * @author David BRASSELY (david.brassely at graviteesource.com)
@@ -26,16 +26,16 @@ import com.fasterxml.jackson.annotation.JsonProperty;
  */
 public class ResponseTemplate implements Serializable {
 
-	@JsonProperty("status")
-	private int statusCode;
+    @JsonProperty("status")
+    private int statusCode;
 
-	private Map<String, String> headers;
+    private Map<String, String> headers;
 
-	private String body;
+    private String body;
 
-	public int getStatusCode() {
-		return statusCode;
-	}
+    public int getStatusCode() {
+        return statusCode;
+    }
 
     public void setStatusCode(int statusCode) {
         this.statusCode = statusCode;

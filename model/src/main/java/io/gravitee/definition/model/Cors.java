@@ -15,17 +15,17 @@
  */
 package io.gravitee.definition.model;
 
-import java.io.Serializable;
-import java.util.HashSet;
-import java.util.Set;
-import java.util.regex.Pattern;
-import java.util.regex.PatternSyntaxException;
-
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import io.gravitee.common.http.HttpStatusCode;
 import io.gravitee.common.util.LinkedCaseInsensitiveSet;
+
+import java.io.Serializable;
+import java.util.HashSet;
+import java.util.Set;
+import java.util.regex.Pattern;
+import java.util.regex.PatternSyntaxException;
 
 /**
  *
@@ -34,27 +34,27 @@ import io.gravitee.common.util.LinkedCaseInsensitiveSet;
  */
 public class Cors implements Serializable {
 
-	public static int DEFAULT_ERROR_STATUS_CODE = HttpStatusCode.BAD_REQUEST_400;
+    public static int DEFAULT_ERROR_STATUS_CODE = HttpStatusCode.BAD_REQUEST_400;
 
-	private boolean enabled;
+    private boolean enabled;
 
-	// TODO rest of the fields only serialized if enabled?
+    // TODO rest of the fields only serialized if enabled?
 
-	private Set<String> accessControlAllowOrigin = new LinkedCaseInsensitiveSet();
+    private Set<String> accessControlAllowOrigin = new LinkedCaseInsensitiveSet();
 
-	private Set<Pattern> accessControlAllowOriginRegex = new HashSet<>();
+    private Set<Pattern> accessControlAllowOriginRegex = new HashSet<>();
 
-	private Set<String> accessControlExposeHeaders = new LinkedCaseInsensitiveSet();
+    private Set<String> accessControlExposeHeaders = new LinkedCaseInsensitiveSet();
 
-	private int accessControlMaxAge = -1;
+    private int accessControlMaxAge = -1;
 
-	private boolean accessControlAllowCredentials;
+    private boolean accessControlAllowCredentials;
 
-	private Set<String> accessControlAllowMethods = new HashSet<>();
+    private Set<String> accessControlAllowMethods = new HashSet<>();
 
-	private Set<String> accessControlAllowHeaders = new LinkedCaseInsensitiveSet();
+    private Set<String> accessControlAllowHeaders = new LinkedCaseInsensitiveSet();
 
-	private int errorStatusCode = DEFAULT_ERROR_STATUS_CODE;
+    private int errorStatusCode = DEFAULT_ERROR_STATUS_CODE;
 
     private boolean runPolicies;
 
@@ -66,100 +66,100 @@ public class Cors implements Serializable {
         this.enabled = enabled;
     }
 
-	public static int getDefaultErrorStatusCode() {
-		return DEFAULT_ERROR_STATUS_CODE;
-	}
+    public static int getDefaultErrorStatusCode() {
+        return DEFAULT_ERROR_STATUS_CODE;
+    }
 
-	public static void setDefaultErrorStatusCode(int defaultErrorStatusCode) {
-		DEFAULT_ERROR_STATUS_CODE = defaultErrorStatusCode;
-	}
+    public static void setDefaultErrorStatusCode(int defaultErrorStatusCode) {
+        DEFAULT_ERROR_STATUS_CODE = defaultErrorStatusCode;
+    }
 
-	@JsonProperty("allowOrigin")
-	public Set<String> getAccessControlAllowOrigin() {
-		return accessControlAllowOrigin;
-	}
+    @JsonProperty("allowOrigin")
+    public Set<String> getAccessControlAllowOrigin() {
+        return accessControlAllowOrigin;
+    }
 
-	public void setAccessControlAllowOrigin(Set<String> accessControlAllowOrigin) {
-		this.accessControlAllowOrigin = accessControlAllowOrigin;
-		accessControlAllowOrigin.forEach(text -> {
-			if (!"*".equals(text) && (text.contains("(") || text.contains("[") || text.contains("*"))) {
-				try {
-					accessControlAllowOriginRegex.add(Pattern.compile(text));
-				} catch (PatternSyntaxException pse) {
-					throw new IllegalArgumentException("Allow origin regex invalid: " + pse.getMessage());
-				}
-			}
-		});
-	}
+    public void setAccessControlAllowOrigin(Set<String> accessControlAllowOrigin) {
+        this.accessControlAllowOrigin = accessControlAllowOrigin;
+        accessControlAllowOrigin.forEach(text -> {
+            if (!"*".equals(text) && (text.contains("(") || text.contains("[") || text.contains("*"))) {
+                try {
+                    accessControlAllowOriginRegex.add(Pattern.compile(text));
+                } catch (PatternSyntaxException pse) {
+                    throw new IllegalArgumentException("Allow origin regex invalid: " + pse.getMessage());
+                }
+            }
+        });
+    }
 
-	@JsonProperty("exposeHeaders")
-	public Set<String> getAccessControlExposeHeaders() {
-		return accessControlExposeHeaders;
-	}
+    @JsonProperty("exposeHeaders")
+    public Set<String> getAccessControlExposeHeaders() {
+        return accessControlExposeHeaders;
+    }
 
-	public void setAccessControlExposeHeaders(Set<String> accessControlExposeHeaders) {
-		this.accessControlExposeHeaders = accessControlExposeHeaders;
-	}
+    public void setAccessControlExposeHeaders(Set<String> accessControlExposeHeaders) {
+        this.accessControlExposeHeaders = accessControlExposeHeaders;
+    }
 
-	@JsonProperty("maxAge")
-	public int getAccessControlMaxAge() {
-		return accessControlMaxAge;
-	}
+    @JsonProperty("maxAge")
+    public int getAccessControlMaxAge() {
+        return accessControlMaxAge;
+    }
 
-	public void setAccessControlMaxAge(int accessControlMaxAge) {
-		this.accessControlMaxAge = accessControlMaxAge;
-	}
+    public void setAccessControlMaxAge(int accessControlMaxAge) {
+        this.accessControlMaxAge = accessControlMaxAge;
+    }
 
-	@JsonProperty("allowCredentials")
-	public boolean isAccessControlAllowCredentials() {
-		return accessControlAllowCredentials;
-	}
+    @JsonProperty("allowCredentials")
+    public boolean isAccessControlAllowCredentials() {
+        return accessControlAllowCredentials;
+    }
 
-	public void setAccessControlAllowCredentials(boolean accessControlAllowCredentials) {
-		this.accessControlAllowCredentials = accessControlAllowCredentials;
-	}
+    public void setAccessControlAllowCredentials(boolean accessControlAllowCredentials) {
+        this.accessControlAllowCredentials = accessControlAllowCredentials;
+    }
 
-	@JsonProperty("allowMethods")
-	public Set<String> getAccessControlAllowMethods() {
-		return accessControlAllowMethods;
-	}
+    @JsonProperty("allowMethods")
+    public Set<String> getAccessControlAllowMethods() {
+        return accessControlAllowMethods;
+    }
 
-	public void setAccessControlAllowMethods(Set<String> accessControlAllowMethods) {
-		this.accessControlAllowMethods = accessControlAllowMethods;
-	}
+    public void setAccessControlAllowMethods(Set<String> accessControlAllowMethods) {
+        this.accessControlAllowMethods = accessControlAllowMethods;
+    }
 
-	@JsonProperty("allowHeaders")
-	public Set<String> getAccessControlAllowHeaders() {
-		return accessControlAllowHeaders;
-	}
+    @JsonProperty("allowHeaders")
+    public Set<String> getAccessControlAllowHeaders() {
+        return accessControlAllowHeaders;
+    }
 
-	public void setAccessControlAllowHeaders(Set<String> accessControlAllowHeaders) {
-		this.accessControlAllowHeaders = accessControlAllowHeaders;
-	}
+    public void setAccessControlAllowHeaders(Set<String> accessControlAllowHeaders) {
+        this.accessControlAllowHeaders = accessControlAllowHeaders;
+    }
 
-	public int getErrorStatusCode() {
-		return errorStatusCode;
-	}
+    public int getErrorStatusCode() {
+        return errorStatusCode;
+    }
 
-	public void setErrorStatusCode(int errorStatusCode) {
-		this.errorStatusCode = errorStatusCode;
-	}
+    public void setErrorStatusCode(int errorStatusCode) {
+        this.errorStatusCode = errorStatusCode;
+    }
 
-	public Set<Pattern> getAccessControlAllowOriginRegex() {
-		return accessControlAllowOriginRegex;
-	}
+    public Set<Pattern> getAccessControlAllowOriginRegex() {
+        return accessControlAllowOriginRegex;
+    }
 
-	@JsonIgnore
-	public void setAccessControlAllowOriginRegex(Set<Pattern> accessControlAllowOriginRegex) {
-		this.accessControlAllowOriginRegex = accessControlAllowOriginRegex;
-	}
+    @JsonIgnore
+    public void setAccessControlAllowOriginRegex(Set<Pattern> accessControlAllowOriginRegex) {
+        this.accessControlAllowOriginRegex = accessControlAllowOriginRegex;
+    }
 
     @JsonInclude(JsonInclude.Include.NON_DEFAULT)
-	public boolean isRunPolicies() {
-		return runPolicies;
-	}
+    public boolean isRunPolicies() {
+        return runPolicies;
+    }
 
-	public void setRunPolicies(boolean runPolicies) {
-		this.runPolicies = runPolicies;
+    public void setRunPolicies(boolean runPolicies) {
+        this.runPolicies = runPolicies;
     }
 }

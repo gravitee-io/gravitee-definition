@@ -15,10 +15,10 @@
  */
 package io.gravitee.definition.model.services.healthcheck;
 
-import java.io.Serializable;
-
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
+
+import java.io.Serializable;
 
 /**
  * @author David BRASSELY (david.brassely at graviteesource.com)
@@ -26,41 +26,41 @@ import com.fasterxml.jackson.annotation.JsonProperty;
  */
 public class Step implements Serializable {
 
-	private String name = "default-step";
+    private String name = "default-step";
 
-	private Request request;
+    private Request request;
 
-	private Response response = Response.DEFAULT_RESPONSE;
+    private Response response = Response.DEFAULT_RESPONSE;
 
-	public Step() {
-	}
+    public Step() {
+    }
 
-	@JsonCreator
-	public Step(@JsonProperty(value = "request", required = true) Request request) {
-		this.request = request;
-	}
+    @JsonCreator
+    public Step(@JsonProperty(value = "request", required = true) Request request) {
+        this.request = request;
+    }
 
-	public String getName() {
-		return name;
-	}
+    public String getName() {
+        return name;
+    }
 
-	public void setName(String name) {
-		this.name = name;
-	}
+    public void setName(String name) {
+        this.name = name;
+    }
 
-	public Request getRequest() {
-		return request;
-	}
+    public Request getRequest() {
+        return request;
+    }
 
-	public void setRequest(Request request) {
-		this.request = request;
-	}
+    public void setRequest(Request request) {
+        this.request = request;
+    }
 
-	public Response getResponse() {
-		return response;
-	}
+    public Response getResponse() {
+        return response;
+    }
 
-	public void setResponse(Response response) {
+    public void setResponse(Response response) {
         this.response = response;
     }
 }

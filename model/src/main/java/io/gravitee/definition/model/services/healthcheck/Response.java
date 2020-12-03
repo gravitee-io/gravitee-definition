@@ -24,16 +24,16 @@ import java.util.List;
  * @author GraviteeSource Team
  */
 public class Response implements Serializable {
-	public final static Response DEFAULT_RESPONSE = new Response();
-	public final static String DEFAULT_ASSERTION = "#response.status == 200";
+    public final static Response DEFAULT_RESPONSE = new Response();
+    public final static String DEFAULT_ASSERTION = "#response.status == 200";
 
-	private List<String> assertions = Collections.singletonList(Response.DEFAULT_ASSERTION);
+    private List<String> assertions = Collections.singletonList(Response.DEFAULT_ASSERTION);
 
-	public List<String> getAssertions() {
-		return assertions;
-	}
+    public List<String> getAssertions() {
+        return assertions;
+    }
 
-	public void setAssertions(List<String> assertions) {
-		this.assertions = assertions;
-	}
+    public void setAssertions(List<String> assertions) {
+        this.assertions = assertions;
+    }
 }

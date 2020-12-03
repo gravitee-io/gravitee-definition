@@ -15,12 +15,12 @@
  */
 package io.gravitee.definition.model.plugins.resources;
 
-import java.io.Serializable;
-import java.util.Objects;
-
 import com.fasterxml.jackson.annotation.*;
 import com.fasterxml.jackson.databind.JsonNode;
 import io.swagger.v3.oas.annotations.media.Schema;
+
+import java.io.Serializable;
+import java.util.Objects;
 
 /**
  * @author David BRASSELY (david.brassely at graviteesource.com)
@@ -28,54 +28,54 @@ import io.swagger.v3.oas.annotations.media.Schema;
  */
 public class Resource implements Serializable {
 
-	private boolean enabled = true;
+    private boolean enabled = true;
 
-	private String name;
+    private String name;
 
-	private String type;
+    private String type;
 
-	private Object configuration;
+    private Object configuration;
 
-	public Resource() {
-	}
+    public Resource() {
+    }
 
-	@JsonCreator
-	public Resource(
-			@JsonProperty(value = "name", required = true) String name,
-			@JsonProperty(value = "type", required = true) String type,
-			@JsonProperty(value = "configuration", required = true) JsonNode configuration
-	)
-	{
-		this.name = name;
-		this.type = type;
-		this.configuration = configuration;
-	}
+    @JsonCreator
+    public Resource(
+            @JsonProperty(value = "name", required = true) String name,
+            @JsonProperty(value = "type", required = true) String type,
+            @JsonProperty(value = "configuration", required = true) JsonNode configuration
+    )
+    {
+        this.name = name;
+        this.type = type;
+        this.configuration = configuration;
+    }
 
     @Schema(implementation = Object.class)
     @JsonRawValue
-	public String getConfiguration() {
-		return configuration == null ? null : configuration.toString();
-	}
+    public String getConfiguration() {
+        return configuration == null ? null : configuration.toString();
+    }
 
-	@JsonIgnore
-	public void setConfiguration(String configuration) {
-		this.configuration = configuration;
-	}
+    @JsonIgnore
+    public void setConfiguration(String configuration) {
+        this.configuration = configuration;
+    }
 
-	@JsonSetter
-	public void setConfiguration(JsonNode configuration) {
-		this.configuration = configuration;
-	}
+    @JsonSetter
+    public void setConfiguration(JsonNode configuration) {
+        this.configuration = configuration;
+    }
 
-	public String getType() {
-		return type;
-	}
+    public String getType() {
+        return type;
+    }
 
-	public void setType(String type) {
-		this.type = type;
-	}
+    public void setType(String type) {
+        this.type = type;
+    }
 
-	public String getName() {
+    public String getName() {
         return name;
     }
 

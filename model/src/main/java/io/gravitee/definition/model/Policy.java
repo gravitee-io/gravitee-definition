@@ -15,14 +15,14 @@
  */
 package io.gravitee.definition.model;
 
-import java.io.Serializable;
-import java.util.Objects;
-
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonRawValue;
 import com.fasterxml.jackson.annotation.JsonSetter;
 import com.fasterxml.jackson.databind.JsonNode;
 import io.swagger.v3.oas.annotations.media.Schema;
+
+import java.io.Serializable;
+import java.util.Objects;
 
 /**
  * @author David BRASSELY (david.brassely at graviteesource.com)
@@ -30,35 +30,35 @@ import io.swagger.v3.oas.annotations.media.Schema;
  */
 public class Policy implements Serializable {
 
-	private String name;
+    private String name;
 
     private Object configuration;
 
     @Schema(implementation = Object.class)
     @JsonRawValue
-	public String getConfiguration() {
-		return configuration == null ? null : configuration.toString();
-	}
+    public String getConfiguration() {
+        return configuration == null ? null : configuration.toString();
+    }
 
-	@JsonIgnore
-	public void setConfiguration(String configuration) {
-		this.configuration = configuration;
-	}
+    @JsonIgnore
+    public void setConfiguration(String configuration) {
+        this.configuration = configuration;
+    }
 
-	@JsonSetter
-	public void setConfiguration(JsonNode configuration) {
-		this.configuration = configuration;
-	}
+    @JsonSetter
+    public void setConfiguration(JsonNode configuration) {
+        this.configuration = configuration;
+    }
 
-	public String getName() {
-		return name;
-	}
+    public String getName() {
+        return name;
+    }
 
-	public void setName(String name) {
-		this.name = name;
-	}
+    public void setName(String name) {
+        this.name = name;
+    }
 
-	@Override
+    @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;

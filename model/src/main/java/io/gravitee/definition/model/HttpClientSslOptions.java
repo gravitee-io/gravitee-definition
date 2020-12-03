@@ -15,12 +15,12 @@
  */
 package io.gravitee.definition.model;
 
-import java.io.Serializable;
-
 import com.fasterxml.jackson.annotation.JsonSetter;
 import io.gravitee.definition.model.ssl.KeyStore;
 import io.gravitee.definition.model.ssl.TrustStore;
 import io.gravitee.definition.model.ssl.pem.PEMTrustStore;
+
+import java.io.Serializable;
 
 /**
  * @author David BRASSELY (david.brassely at graviteesource.com)
@@ -52,28 +52,28 @@ public class HttpClientSslOptions implements Serializable {
         this.trustAll = trustAll;
     }
 
-	public TrustStore getTrustStore() {
-		return trustStore;
-	}
+    public TrustStore getTrustStore() {
+        return trustStore;
+    }
 
-	public void setTrustStore(TrustStore trustStore) {
-		this.trustStore = trustStore;
-	}
+    public void setTrustStore(TrustStore trustStore) {
+        this.trustStore = trustStore;
+    }
 
-	public KeyStore getKeyStore() {
-		return keyStore;
-	}
+    public KeyStore getKeyStore() {
+        return keyStore;
+    }
 
-	public void setKeyStore(KeyStore keyStore) {
-		this.keyStore = keyStore;
-	}
+    public void setKeyStore(KeyStore keyStore) {
+        this.keyStore = keyStore;
+    }
 
-	@JsonSetter
-	public void setPem(String sPem) {
-		if (sPem != null && !sPem.equals("null")) {
-			PEMTrustStore trustStore = new PEMTrustStore();
-			trustStore.setContent(sPem);
-			setTrustStore(trustStore);
-		}
-	}
+    @JsonSetter
+    public void setPem(String sPem) {
+        if (sPem != null && !sPem.equals("null")) {
+            PEMTrustStore trustStore = new PEMTrustStore();
+            trustStore.setContent(sPem);
+            setTrustStore(trustStore);
+        }
+    }
 }

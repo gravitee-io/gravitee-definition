@@ -27,8 +27,8 @@ public class GraviteeMapper extends ObjectMapper {
     private static final long serialVersionUID = 1L;
 
     public GraviteeMapper() {
-	    enable(SerializationFeature.INDENT_OUTPUT);
-	    enable(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS);
-	    setSerializationInclusion(JsonInclude.Include.NON_NULL);
+        enable(SerializationFeature.INDENT_OUTPUT);
+        enable(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS);
+        setSerializationInclusion(JsonInclude.Include.NON_NULL);
     }
 }

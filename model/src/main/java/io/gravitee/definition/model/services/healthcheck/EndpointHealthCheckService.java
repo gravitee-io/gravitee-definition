@@ -24,21 +24,21 @@ import com.fasterxml.jackson.annotation.JsonCreator;
 // TODO not deserialize if inherit
 public class EndpointHealthCheckService extends HealthCheckService {
 
-	private boolean inherit;
+    private boolean inherit;
 
-	public EndpointHealthCheckService() {
-	}
+    public EndpointHealthCheckService() {
+    }
 
-	public boolean isInherit() {
-		return inherit;
-	}
+    public boolean isInherit() {
+        return inherit;
+    }
 
-	public void setInherit(boolean inherit) {
-		this.inherit = inherit;
-	}
+    public void setInherit(boolean inherit) {
+        this.inherit = inherit;
+    }
 
-	@JsonCreator
-	public static EndpointHealthCheckService createHealthCheck(boolean enabled) {
-		return enabled ? new EndpointHealthCheckService() : null;
-	}
+    @JsonCreator
+    public static EndpointHealthCheckService createHealthCheck(boolean enabled) {
+        return enabled ? new EndpointHealthCheckService() : null;
+    }
 }

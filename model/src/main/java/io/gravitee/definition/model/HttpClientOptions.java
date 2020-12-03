@@ -15,9 +15,9 @@
  */
 package io.gravitee.definition.model;
 
-import java.io.Serializable;
-
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
+import java.io.Serializable;
 
 /**
  * @author David BRASSELY (david.brassely at graviteesource.com)
@@ -26,8 +26,8 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 @JsonIgnoreProperties("configuration")
 public class HttpClientOptions implements Serializable {
 
-	public static long DEFAULT_IDLE_TIMEOUT = 60000;
-	public static long DEFAULT_CONNECT_TIMEOUT = 5000;
+    public static long DEFAULT_IDLE_TIMEOUT = 60000;
+    public static long DEFAULT_CONNECT_TIMEOUT = 5000;
     public static long DEFAULT_READ_TIMEOUT = 10000;
     public static int DEFAULT_MAX_CONCURRENT_CONNECTIONS = 100;
     public static boolean DEFAULT_KEEP_ALIVE = true;
@@ -44,9 +44,9 @@ public class HttpClientOptions implements Serializable {
     private boolean pipelining = DEFAULT_PIPELINING;
     private int maxConcurrentConnections = DEFAULT_MAX_CONCURRENT_CONNECTIONS;
     private boolean useCompression = DEFAULT_USE_COMPRESSION;
-	private boolean followRedirects = DEFAULT_FOLLOW_REDIRECTS;
-	private Boolean clearTextUpgrade = DEFAULT_CLEAR_TEXT_UPGRADE;
-	private ProtocolVersion version = DEFAULT_PROTOCOL_VERSION;
+    private boolean followRedirects = DEFAULT_FOLLOW_REDIRECTS;
+    private Boolean clearTextUpgrade = DEFAULT_CLEAR_TEXT_UPGRADE;
+    private ProtocolVersion version = DEFAULT_PROTOCOL_VERSION;
 
     public long getConnectTimeout() {
         return connectTimeout;
@@ -104,29 +104,29 @@ public class HttpClientOptions implements Serializable {
         this.useCompression = useCompression;
     }
 
-	public boolean isFollowRedirects() {
-		return followRedirects;
-	}
+    public boolean isFollowRedirects() {
+        return followRedirects;
+    }
 
-	public void setFollowRedirects(boolean followRedirects) {
-		this.followRedirects = followRedirects;
-	}
+    public void setFollowRedirects(boolean followRedirects) {
+        this.followRedirects = followRedirects;
+    }
 
-	// TODO was only serialized when version != HTTP_1_1
-	public Boolean isClearTextUpgrade() {
-		return clearTextUpgrade;
-	}
+    // TODO was only serialized when version != HTTP_1_1
+    public Boolean isClearTextUpgrade() {
+        return clearTextUpgrade;
+    }
 
-	public void setClearTextUpgrade(Boolean clearTextUpgrade) {
-		this.clearTextUpgrade = clearTextUpgrade;
-	}
+    public void setClearTextUpgrade(Boolean clearTextUpgrade) {
+        this.clearTextUpgrade = clearTextUpgrade;
+    }
 
-	// TODO was only serialized when version != HTTP_1_1
-	public ProtocolVersion getVersion() {
-		return version;
-	}
+    // TODO was only serialized when version != HTTP_1_1
+    public ProtocolVersion getVersion() {
+        return version;
+    }
 
-	public void setVersion(ProtocolVersion version) {
-		this.version = version;
-	}
+    public void setVersion(ProtocolVersion version) {
+        this.version = version;
+    }
 }

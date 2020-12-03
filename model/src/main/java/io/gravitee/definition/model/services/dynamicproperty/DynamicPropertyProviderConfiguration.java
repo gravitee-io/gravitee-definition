@@ -15,17 +15,17 @@
  */
 package io.gravitee.definition.model.services.dynamicproperty;
 
-import java.io.Serializable;
-
 import com.fasterxml.jackson.annotation.JsonSubTypes;
 import io.gravitee.definition.model.services.dynamicproperty.http.HttpDynamicPropertyProviderConfiguration;
+
+import java.io.Serializable;
 
 /**
  * @author David BRASSELY (david.brassely at graviteesource.com)
  * @author GraviteeSource Team
  */
 @JsonSubTypes({
-		@JsonSubTypes.Type(name = "HTTP", value = HttpDynamicPropertyProviderConfiguration.class)
+        @JsonSubTypes.Type(name = "HTTP", value = HttpDynamicPropertyProviderConfiguration.class)
 })
 public interface DynamicPropertyProviderConfiguration extends Serializable {
 }

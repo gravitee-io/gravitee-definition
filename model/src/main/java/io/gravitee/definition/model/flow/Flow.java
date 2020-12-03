@@ -15,14 +15,14 @@
  */
 package io.gravitee.definition.model.flow;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import io.gravitee.common.http.HttpMethod;
+
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
-
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonProperty;
-import io.gravitee.common.http.HttpMethod;
 
 /**
  * @author David BRASSELY (david.brassely at graviteesource.com)
@@ -93,7 +93,7 @@ public class Flow implements Serializable {
     }
 
     public void setPath(String path) {
-        if (pathOperator == null){
+        if (pathOperator == null) {
             pathOperator = new PathOperator();
         }
         pathOperator.setPath(path);
@@ -105,7 +105,7 @@ public class Flow implements Serializable {
     }
 
     public void setOperator(Operator operator) {
-        if (pathOperator == null){
+        if (pathOperator == null) {
             pathOperator = new PathOperator();
         }
         pathOperator.setOperator(operator);
@@ -120,7 +120,7 @@ public class Flow implements Serializable {
         this.pathOperator = pathOperator;
     }
 
-    private static class PathOperator{
+    private static class PathOperator {
         private String path;
         private Operator operator = Operator.STARTS_WITH;
 

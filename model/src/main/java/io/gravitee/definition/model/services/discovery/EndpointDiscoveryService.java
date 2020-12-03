@@ -15,9 +15,6 @@
  */
 package io.gravitee.definition.model.services.discovery;
 
-import java.util.Collections;
-import java.util.Map;
-
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonRawValue;
 import com.fasterxml.jackson.annotation.JsonSetter;
@@ -25,48 +22,55 @@ import com.fasterxml.jackson.databind.JsonNode;
 import io.gravitee.definition.model.Service;
 import io.swagger.v3.oas.annotations.media.Schema;
 
+import java.util.Collections;
+import java.util.Map;
+
 /**
  * @author David BRASSELY (david.brassely at graviteesource.com)
  * @author GraviteeSource Team
  */
 public class EndpointDiscoveryService extends Service {
 
-	public final static String SERVICE_KEY = "discovery";
-	public final static Map<String, String> PROVIDERS_PLUGIN_MAPPING = Collections.singletonMap("CONSUL", "consul-service-discovery");
+    public final static String SERVICE_KEY = "discovery";
+    public final static Map<String, String> PROVIDERS_PLUGIN_MAPPING = Collections.singletonMap("CONSUL", "consul-service-discovery");
 
-	public EndpointDiscoveryService() {
-		super(SERVICE_KEY);
-	}
+    public EndpointDiscoveryService() {
+        super(SERVICE_KEY);
+    }
 
-	private String provider;
+    private String provider;
 
-	private Object configuration;
+    private Object configuration;
 
-	public String getProvider() {
-		return provider;
-	}
+    public String getProvider() {
+        return provider;
+    }
 
-	public void setProvider(String provider) {
-		this.provider = PROVIDERS_PLUGIN_MAPPING.getOrDefault(provider, provider.toLowerCase());
-	}
+    public void setProvider(String provider) {
+        if (provider == null) {
+            this.provider = null;
+        } else {
+            this.provider = PROVIDERS_PLUGIN_MAPPING.getOrDefault(provider.toUpperCase(), provider.toLowerCase());
+        }
+    }
 
     @Schema(implementation = Object.class)
-	@JsonRawValue
-	public String getConfiguration() {
-		return configuration == null ? null : configuration.toString();
-	}
+    @JsonRawValue
+    public String getConfiguration() {
+        return configuration == null ? null : configuration.toString();
+    }
 
-	@JsonIgnore
-	public void setConfiguration(String configuration) {
-		this.configuration = configuration;
-	}
+    @JsonIgnore
+    public void setConfiguration(String configuration) {
+        this.configuration = configuration;
+    }
 
-	@JsonSetter
-	public void setConfiguration(JsonNode configuration) {
-		this.configuration = configuration;
-	}
+    @JsonSetter
+    public void setConfiguration(JsonNode configuration) {
+        this.configuration = configuration;
+    }
 
-	public static String getServiceKey() {
-		return SERVICE_KEY;
-	}
+    public static String getServiceKey() {
+        return SERVICE_KEY;
+    }
 }

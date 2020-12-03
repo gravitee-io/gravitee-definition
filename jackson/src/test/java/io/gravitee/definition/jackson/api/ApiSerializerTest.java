@@ -350,20 +350,20 @@ public class ApiSerializerTest extends AbstractTest {
         assertTrue(generatedJsonDefinition.contains("\"gravitee\" : \"2.0.0\","));
     }
 
-	@Test
-	public void testSerializeRule() throws Exception {
-		Rule rule = new Rule();
-		Policy policy = new Policy();
-		policy.setName("test");
-		policy.setConfiguration("{\"foo\":\"bar\"}");
-		rule.setPolicy(policy);
-		String generatedJsonDefinition = objectMapper().writeValueAsString(rule);
-		JSONAssert.assertEquals("{\n" +
-				"  \"methods\" : [ \"CONNECT\", \"DELETE\", \"GET\", \"HEAD\", \"OPTIONS\", \"PATCH\", \"POST\", \"PUT\", \"TRACE\", \"OTHER\" ],\n" +
-				"  \"enabled\" : true,\n" +
+    @Test
+    public void testSerializeRule() throws Exception {
+        Rule rule = new Rule();
+        Policy policy = new Policy();
+        policy.setName("test");
+        policy.setConfiguration("{\"foo\":\"bar\"}");
+        rule.setPolicy(policy);
+        String generatedJsonDefinition = objectMapper().writeValueAsString(rule);
+        JSONAssert.assertEquals("{\n" +
+                "  \"methods\" : [ \"CONNECT\", \"DELETE\", \"GET\", \"HEAD\", \"OPTIONS\", \"PATCH\", \"POST\", \"PUT\", \"TRACE\", \"OTHER\" ],\n" +
+                "  \"enabled\" : true,\n" +
                 "  \"test\" : {\n" +
                 "     \"foo\":\"bar\"\n" +
                 "  }\n" +
                 "}", generatedJsonDefinition, JSONCompareMode.STRICT);
-	}
+    }
 }

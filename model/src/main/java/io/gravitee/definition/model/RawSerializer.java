@@ -17,7 +17,7 @@ package io.gravitee.definition.model;
 
 public class RawSerializer extends com.fasterxml.jackson.databind.ser.std.RawSerializer<Object> {
 
-	public RawSerializer() {
-		super(Object.class);
-	}
+    public RawSerializer() {
+        super(Object.class);
+    }
 }

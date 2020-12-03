@@ -15,16 +15,16 @@
  */
 package io.gravitee.definition.model;
 
-import java.io.Serializable;
-import java.util.*;
-import java.util.regex.Pattern;
-
 import com.fasterxml.jackson.annotation.*;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import io.gravitee.definition.model.flow.Flow;
 import io.gravitee.definition.model.plugins.resources.Resource;
 import io.gravitee.definition.model.services.Services;
 import io.gravitee.definition.model.services.discovery.EndpointDiscoveryService;
+
+import java.io.Serializable;
+import java.util.*;
+import java.util.regex.Pattern;
 
 /**
  * @author David BRASSELY (david.brassely at graviteesource.com)
@@ -52,7 +52,7 @@ public class Api implements Serializable {
     }
 
     @JsonCreator
-    public Api(@JsonProperty(value = "proxy", required = true) Proxy proxy,@JsonProperty("gravitee") DefinitionVersion definitionVersion )
+    public Api(@JsonProperty(value = "proxy", required = true) Proxy proxy, @JsonProperty("gravitee") DefinitionVersion definitionVersion)
     {
         this.proxy = proxy;
         this.definitionVersion = definitionVersion == null ? DefinitionVersion.V1 : definitionVersion;
@@ -93,7 +93,7 @@ public class Api implements Serializable {
     }
 
     public void setPaths(Map<String, List<Rule>> paths) {
-        if (definitionVersion != DefinitionVersion.V1){
+        if (definitionVersion != DefinitionVersion.V1) {
             throw new UnsupportedOperationException("Paths are only available for definition 1.x.x");
         }
         this.paths = paths;
@@ -216,7 +216,7 @@ public class Api implements Serializable {
     }
 
     public void setFlows(List<Flow> flows) {
-        if (definitionVersion == DefinitionVersion.V1){
+        if (definitionVersion == DefinitionVersion.V1) {
             throw new UnsupportedOperationException("Flows are only available for definition >= 2.x.x");
         }
         this.flows = flows;
@@ -257,9 +257,9 @@ public class Api implements Serializable {
 
     public String toString() {
         return "Api{" +
-            "id='" + id + '\'' +
-            ", name='" + name + '\'' +
-            ", version='" + version + '\'' +
-            '}';
+                "id='" + id + '\'' +
+                ", name='" + name + '\'' +
+                ", version='" + version + '\'' +
+                '}';
     }
 }

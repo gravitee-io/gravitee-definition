@@ -15,12 +15,12 @@
  */
 package io.gravitee.definition.model.services.schedule;
 
-import java.io.Serializable;
-import java.util.concurrent.TimeUnit;
-
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonProperty;
+
+import java.io.Serializable;
+import java.util.concurrent.TimeUnit;
 
 /**
  * @author David BRASSELY (david.brassely at graviteesource.com)
@@ -28,36 +28,36 @@ import com.fasterxml.jackson.annotation.JsonProperty;
  */
 public class Trigger implements Serializable {
 
-	private long rate;
+    private long rate;
 
-	private TimeUnit unit;
+    private TimeUnit unit;
 
-	public Trigger() {
-	}
+    public Trigger() {
+    }
 
-	@JsonCreator
-	public Trigger(
-			@JsonProperty(value = "rate", required = true) long rate,
-			@JsonFormat(with = JsonFormat.Feature.ACCEPT_CASE_INSENSITIVE_PROPERTIES) @JsonProperty(value = "unit", required = true) TimeUnit unit)
-	{
-		this.rate = rate;
-		this.unit = unit;
-	}
+    @JsonCreator
+    public Trigger(
+            @JsonProperty(value = "rate", required = true) long rate,
+            @JsonFormat(with = JsonFormat.Feature.ACCEPT_CASE_INSENSITIVE_PROPERTIES) @JsonProperty(value = "unit", required = true) TimeUnit unit)
+    {
+        this.rate = rate;
+        this.unit = unit;
+    }
 
-	public long getRate() {
-		return rate;
-	}
+    public long getRate() {
+        return rate;
+    }
 
-	public void setRate(long rate) {
-		this.rate = rate;
-	}
+    public void setRate(long rate) {
+        this.rate = rate;
+    }
 
-	public TimeUnit getUnit() {
-		return unit;
-	}
+    public TimeUnit getUnit() {
+        return unit;
+    }
 
-	@JsonFormat(with = JsonFormat.Feature.ACCEPT_CASE_INSENSITIVE_PROPERTIES)
-	public void setUnit(TimeUnit unit) {
-		this.unit = unit;
-	}
+    @JsonFormat(with = JsonFormat.Feature.ACCEPT_CASE_INSENSITIVE_PROPERTIES)
+    public void setUnit(TimeUnit unit) {
+        this.unit = unit;
+    }
 }

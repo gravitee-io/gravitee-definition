@@ -27,14 +27,14 @@ import io.gravitee.definition.model.ProtocolVersion;
  */
 public class GrpcEndpoint extends HttpEndpoint {
 
-	@JsonCreator
-	public GrpcEndpoint(@JsonProperty("name") String name, @JsonProperty("target") String target) {
-		super(EndpointType.GRPC, name, target);
-	}
+    @JsonCreator
+    public GrpcEndpoint(@JsonProperty("name") String name, @JsonProperty("target") String target) {
+        super(EndpointType.GRPC, name, target);
+    }
 
-	@Override
-	public void setHttpClientOptions(HttpClientOptions httpClientOptions) {
-		httpClientOptions.setVersion(ProtocolVersion.HTTP_2);
-		super.setHttpClientOptions(httpClientOptions);
-	}
+    @Override
+    public void setHttpClientOptions(HttpClientOptions httpClientOptions) {
+        httpClientOptions.setVersion(ProtocolVersion.HTTP_2);
+        super.setHttpClientOptions(httpClientOptions);
+    }
 }
