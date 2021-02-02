@@ -19,12 +19,15 @@ import java.io.Serializable;
 import java.util.List;
 import java.util.Set;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 /**
  * @author David BRASSELY (david.brassely at graviteesource.com)
  * @author GraviteeSource Team
  */
 public class Proxy implements Serializable {
 
+    @JsonProperty("virtual_hosts")
     private List<VirtualHost> virtualHosts;
 
     private Set<EndpointGroup> groups;
@@ -35,8 +38,10 @@ public class Proxy implements Serializable {
 
     private Logging logging;
 
+    @JsonProperty("strip_context_path")
     private boolean stripContextPath = false;
 
+    @JsonProperty("preserve_host")
     private boolean preserveHost = false;
 
     public boolean isStripContextPath() {
