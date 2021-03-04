@@ -42,6 +42,7 @@ public class ApiSerializer extends StdScalarSerializer<Api> {
         jgen.writeStringField("id", api.getId());
         jgen.writeStringField("name", api.getName());
         jgen.writeObjectField("version", api.getVersion());
+        jgen.writeStringField("primaryOwnerId", api.getPrimaryOwnerId());
 
         if (api.getDefinitionVersion() != null) {
             jgen.writeObjectField("gravitee", api.getDefinitionVersion().getLabel());

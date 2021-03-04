@@ -217,6 +217,11 @@ public class ApiDeserializer extends StdScalarDeserializer<Api> {
             api.setResponseTemplates(responseTemplates);
         }
 
+        JsonNode primaryOwnerId = node.get("primaryOwnerId");
+        if (primaryOwnerId != null) {
+            api.setPrimaryOwnerId(primaryOwnerId.asText());
+        }
+
         return api;
     }
 }

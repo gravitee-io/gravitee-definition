@@ -45,6 +45,7 @@ public class Api implements Serializable {
     private Map<String, Pattern> pathMappings = new HashMap<>();
     private Map<String, ResponseTemplates> responseTemplates = new HashMap<>();
     private Map<String, Plan> plans = new HashMap<>();
+    private String primaryOwnerId;
 
     public String getId() {
         return id;
@@ -175,6 +176,14 @@ public class Api implements Serializable {
         for (Plan plan : plans) {
             this.plans.put(plan.getId(), plan);
         }
+    }
+
+    public String getPrimaryOwnerId() {
+        return primaryOwnerId;
+    }
+
+    public void setPrimaryOwnerId(String primaryOwnerId) {
+        this.primaryOwnerId = primaryOwnerId;
     }
 
     @Override
