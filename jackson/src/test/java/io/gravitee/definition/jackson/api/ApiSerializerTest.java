@@ -15,6 +15,7 @@
  */
 package io.gravitee.definition.jackson.api;
 
+import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import io.gravitee.definition.jackson.AbstractTest;
 import io.gravitee.definition.model.Api;
@@ -25,13 +26,6 @@ import org.junit.Assert;
 import org.junit.Test;
 import org.skyscreamer.jsonassert.JSONAssert;
 import org.skyscreamer.jsonassert.JSONCompareMode;
-
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.FileWriter;
-import java.util.Comparator;
-import java.util.LinkedHashSet;
-import java.util.stream.Collectors;
 
 import static org.junit.Assert.assertTrue;
 
@@ -544,29 +538,5 @@ public class ApiSerializerTest extends AbstractTest {
                 "     \"foo\":\"bar\"\n" +
                 "  }\n" +
                 "}", generatedJsonDefinition, JSONCompareMode.STRICT);
-    }
-
-    @Test
-    public void definition_v1_with_paths_and_flows() throws Exception {
-        Api api = load("/io/gravitee/definition/jackson/api-v1-withpathsandflows.json", Api.class);
-        String expectedDefinition = "/io/gravitee/definition/jackson/api-v1-withpathsandflows-expected.json";
-
-        String generatedJsonDefinition = objectMapper().writeValueAsString(api);
-        String expectedGeneratedJsonDefinition = IOUtils.toString(read(expectedDefinition));
-
-        Assert.assertNotNull(generatedJsonDefinition);
-        Assert.assertEquals(objectMapper().readTree(expectedGeneratedJsonDefinition.getBytes()), objectMapper().readTree(generatedJsonDefinition.getBytes()));
-    }
-
-    @Test
-    public void definition_v2_with_flows_and_paths() throws Exception {
-        Api api = load("/io/gravitee/definition/jackson/api-v2-withflowsandpaths.json", Api.class);
-        String expectedDefinition = "/io/gravitee/definition/jackson/api-v2-withflowsandpaths-expected.json";
-
-        String generatedJsonDefinition = objectMapper().writeValueAsString(api);
-        String expectedGeneratedJsonDefinition = IOUtils.toString(read(expectedDefinition));
-
-        Assert.assertNotNull(generatedJsonDefinition);
-        Assert.assertEquals(objectMapper().readTree(expectedGeneratedJsonDefinition.getBytes()), objectMapper().readTree(generatedJsonDefinition.getBytes()));
     }
 }

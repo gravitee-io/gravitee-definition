@@ -13,50 +13,37 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package io.gravitee.definition.model;
+package io.gravitee.definition.jackson.datatype.api.deser;
 
 import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.databind.DeserializationContext;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.deser.std.StdScalarDeserializer;
+import io.gravitee.definition.model.flow.Step;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  * @author David BRASSELY (david.brassely at graviteesource.com)
  * @author GraviteeSource Team
  */
-public class PropertiesDeserializer extends StdScalarDeserializer<List<Property>> {
+public class StepDeserializer extends StdScalarDeserializer<Step> {
 
-    public PropertiesDeserializer() {
-        super(List.class);
+    public StepDeserializer() {
+        super(Step.class);
     }
 
     @Override
-    public List<Property> deserialize(JsonParser jp, DeserializationContext ctxt)
-            throws IOException
-    {
+    public Step deserialize(JsonParser jp, DeserializationContext ctxt) throws IOException {
         JsonNode node = jp.getCodec().readTree(jp);
 
-        List<Property> values = new ArrayList<>();
+        Step step = new Step();
+        step.setName(node.path("name").asText());
+        step.setDescription(node.path("description").asText());
+        step.setPolicy(node.get("policy").asText());
+        step.setConfiguration(node.get("configuration").toString());
+        step.setEnabled(node.path("enabled").asBoolean(true));
 
-        if (node.isArray()) {
-            node.elements().forEachRemaining(jsonNode -> {
-                try {
-                    Property property = jsonNode.traverse(jp.getCodec()).readValueAs(Property.class);
-                    values.add(property);
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-            });
-        } else if (node.isObject()) {
-            node.fields().forEachRemaining(jsonNode ->
-                    values.add(new Property(jsonNode.getKey(), jsonNode.getValue().asText()))
-            );
-        }
-
-        return values;
+        return step;
     }
 }

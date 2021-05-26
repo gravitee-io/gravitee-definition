@@ -15,7 +15,6 @@
  */
 package io.gravitee.definition.model;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 import java.io.Serializable;
@@ -30,12 +29,16 @@ public class Logging implements Serializable {
     public final static LoggingScope DEFAULT_LOGGING_SCOPE = LoggingScope.NONE;
     public final static LoggingContent DEFAULT_LOGGING_CONTENT = LoggingContent.NONE;
 
+    @JsonProperty("mode")
     private LoggingMode mode = DEFAULT_LOGGING_MODE;
 
+    @JsonProperty("scope")
     private LoggingScope scope = DEFAULT_LOGGING_SCOPE;
 
+    @JsonProperty("content")
     private LoggingContent content = DEFAULT_LOGGING_CONTENT;
 
+    @JsonProperty("condition")
     private String condition;
 
     public LoggingMode getMode() {
@@ -46,19 +49,11 @@ public class Logging implements Serializable {
         this.mode = mode;
     }
 
-    @JsonProperty("condition")
     public String getCondition() {
-        if (mode != LoggingMode.NONE && condition != null && !"null".equals(condition)) {
-            return condition;
-        }
-        return null;
+        return condition;
     }
 
     public void setCondition(String condition) {
-        // test "null" for legacy configuration
-        if (condition.equals("null")) {
-            return;
-        }
         this.condition = condition;
     }
 

@@ -13,38 +13,38 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package io.gravitee.definition.model.services.healthcheck;
+package io.gravitee.definition.jackson.datatype.api.deser;
 
 import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.databind.DeserializationContext;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.deser.std.StdScalarDeserializer;
-import io.gravitee.definition.model.Property;
+import io.gravitee.definition.model.Policy;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
 
 /**
- * @author Florent CHAMFROY (florent.chamfroy at graviteesource.com)
+ * @author David BRASSELY (david.brassely at graviteesource.com)
  * @author GraviteeSource Team
  */
-public class EndpointHealthCheckServiceDeserializer extends StdScalarDeserializer<EndpointHealthCheckService> {
+public class PolicyDeserializer extends StdScalarDeserializer<Policy> {
 
-    public EndpointHealthCheckServiceDeserializer() {
-        super(List.class);
+    public PolicyDeserializer(Class<Policy> vc) {
+        super(vc);
     }
 
     @Override
-    public EndpointHealthCheckService deserialize(JsonParser jp, DeserializationContext ctxt)
-            throws IOException
-    {
+    public Policy deserialize(JsonParser jp, DeserializationContext ctxt)
+            throws IOException {
         JsonNode node = jp.getCodec().readTree(jp);
 
-        if (node.isObject()) {
-            return node.traverse(jp.getCodec()).readValueAs(EndpointHealthCheckService.class);
-        }
+        Policy policy = new Policy();
+        node.fieldNames().forEachRemaining(field -> {
+            JsonNode subNode = node.findValue(field);
+            policy.setName(field);
+            policy.setConfiguration(subNode.toString());
+        });
 
-        return null;
+        return policy;
     }
 }

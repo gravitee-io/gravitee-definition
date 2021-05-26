@@ -16,6 +16,7 @@
 package io.gravitee.definition.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import io.gravitee.common.util.TemplatedValueHashMap;
 
 import java.io.Serializable;
@@ -29,7 +30,10 @@ import java.util.stream.Collectors;
  */
 public class Properties implements Serializable {
 
+    @JsonProperty("properties")
     private List<Property> properties;
+
+    @JsonIgnore
     private Map<String, String> entries;
 
     public void setProperties(List<Property> properties) {
@@ -51,7 +55,6 @@ public class Properties implements Serializable {
         return properties;
     }
 
-    @JsonIgnore
     public Map<String, String> getValues() {
         return this.entries;
     }
