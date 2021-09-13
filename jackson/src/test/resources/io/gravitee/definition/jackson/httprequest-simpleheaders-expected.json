@@ -7,5 +7,9 @@
     "X-Gravitee-Transaction-Id" : "transaction-id",
     "content-type" : "application/json",
     "X-Gravitee-Request-Id" : "request-id"
+  },
+  "virtualHost" : {
+    "host": "api.gravitee.io",
+    "path": "/"
   }
 }

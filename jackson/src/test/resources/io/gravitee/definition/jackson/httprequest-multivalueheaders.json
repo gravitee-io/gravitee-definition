@@ -8,5 +8,9 @@
     "content-type" : "application/json",
     "X-Gravitee-Request-Id" : "request-id",
     "accept-encoding" : "deflate, gzip, compress"
+  },
+  "virtualHost" : {
+    "host": "api.gravitee.io",
+    "path": "/"
   }
 }

@@ -53,6 +53,10 @@ public class HttpRequestSerializer extends StdScalarSerializer<HttpRequest> {
             jgen.writeEndObject();
         }
 
+        if (httpRequest.getVirtualHost() != null) {
+            jgen.writeObjectField("virtualHost", httpRequest.getVirtualHost());
+        }
+
         jgen.writeEndObject();
     }
 }

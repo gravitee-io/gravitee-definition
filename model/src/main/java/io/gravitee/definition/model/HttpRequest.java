@@ -31,6 +31,9 @@ public class HttpRequest implements Serializable {
     @JsonProperty("body")
     private String body;
 
+    @JsonProperty("virtualHost")
+    private VirtualHost virtualHost;
+
     @JsonProperty("headers")
     private Map<String, List<String>> headers;
 
@@ -64,5 +67,13 @@ public class HttpRequest implements Serializable {
 
     public void setHeaders(Map<String, List<String>> headers) {
         this.headers = headers;
+    }
+
+    public VirtualHost getVirtualHost() {
+        return virtualHost;
+    }
+
+    public void setVirtualHost(VirtualHost virtualHost) {
+        this.virtualHost = virtualHost;
     }
 }

@@ -22,6 +22,8 @@ import com.fasterxml.jackson.databind.DeserializationContext;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.deser.std.StdScalarDeserializer;
 import io.gravitee.definition.model.HttpRequest;
+import io.gravitee.definition.model.VirtualHost;
+import io.gravitee.definition.model.services.Services;
 import java.io.IOException;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -57,6 +59,11 @@ public class HttpRequestDeserializer extends StdScalarDeserializer<HttpRequest> 
                 );
 
             httpRequest.setHeaders(multiValueHeaders);
+        }
+        JsonNode virtualHostNode = node.get("virtualHost");
+        if (virtualHostNode != null) {
+            VirtualHost virtualHost = virtualHostNode.traverse(jp.getCodec()).readValueAs(VirtualHost.class);
+            httpRequest.setVirtualHost(virtualHost);
         }
         return httpRequest;
     }
