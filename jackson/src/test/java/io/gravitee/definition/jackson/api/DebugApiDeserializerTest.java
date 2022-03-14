@@ -58,7 +58,7 @@ public class DebugApiDeserializerTest extends AbstractTest {
     public void debugApi_withDebugSteps() throws Exception {
         DebugApi debugApi = load("/io/gravitee/definition/jackson/debug/debug-api-with-debug-steps.json", DebugApi.class);
 
-        assertEquals(debugApi.getDebugSteps().size(), 10);
+        assertEquals(debugApi.getDebugSteps().size(), 11);
         assertEquals(
             debugApi.getPreprocessorStep().getAttributes(),
             Map.of("gravitee.attribute.application", "1", "gravitee.attribute.user-id", "127.0.0.1")
@@ -111,6 +111,13 @@ public class DebugApiDeserializerTest extends AbstractTest {
         DebugStep skippedStep = debugApi.getDebugSteps().get(3);
         assertEquals(skippedStep.getStatus(), DebugStepStatus.SKIPPED);
         assertEquals(skippedStep.getCondition(), "{#request.headers.name == \"joe\"}");
+
+        DebugStep errorStep = debugApi.getDebugSteps().get(4);
+        assertEquals(errorStep.getStatus(), DebugStepStatus.ERROR);
+        assertEquals(errorStep.getError().getMessage(), "Error message");
+        assertEquals(errorStep.getError().getStatus(), 400);
+        assertEquals(errorStep.getError().getKey(), "POLICY_ERROR");
+        assertEquals(errorStep.getError().getContentType(), "aplication/json");
     }
 
     @Test
