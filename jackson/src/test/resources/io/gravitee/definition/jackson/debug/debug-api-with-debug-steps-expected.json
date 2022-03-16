@@ -162,21 +162,6 @@
       }
     },
     {
-      "policyInstanceId": "b3cb3acc-79ea-48ea-8b3a-cc79ea48e666",
-      "policyId": "transform-headers",
-      "scope": "ON_REQUEST",
-      "status": "ERROR",
-      "error": {
-        "contentType": "aplication/json",
-        "key": "POLICY_ERROR",
-        "message": "Error message",
-        "status": 400
-      },
-      "duration": 17968,
-      "result": {
-      }
-    },
-    {
       "policyInstanceId": "f764a3c9-8dc1-4bfd-a4a3-c98dc19bfd82",
       "policyId": "policy-assign-content",
       "scope": "ON_REQUEST_CONTENT",
